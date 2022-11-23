@@ -31,66 +31,6 @@ interface TableProps {
 }
 
 export function Table({tableData}:TableProps) {
-
-
-
-
-  const sampleData: Array<User> = [
-    {
-      id: 1,
-      description: "Training(2024)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    },
-    {
-      id: 2,
-      description: "Training(2024)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    },
-    {
-      id: 3,
-      description: "Training(2028)",
-      notes: "This is required for training camps Training(2028)",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    },
-    {
-      id: 4,
-      description: "Training(2028)",
-      notes: "This is required for training camps Training(2028)",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    },
-  ];
-
-
-
-
-
-
-//  const finalrowsData=sampleData?.filter((value)=> value?.description?.toLocaleLowerCase()?.includes(selectedProgram?.toLocaleLowerCase()))
-// // console.log(finalrowsData);
-// // console.log("sample data"+sampleData);
-
-// const rowsData= !finalrowsData.length ? sampleData : finalrowsData ;
-// console.log("rows are " + rowsData);
-
-
   const [search, setSearchText] = useState<string>();
   const [data, setData] = useState<Array<User>>(tableData);
   const [selectedRows, setSelectedRows] = useState({});

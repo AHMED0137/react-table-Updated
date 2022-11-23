@@ -70,7 +70,6 @@ export function TableOfContentsFloating({
 }: TableOfContentsFloatingProps) {
   const { classes, cx } = useStyles();
   const [active, setActive] = useState(2);
-  const [program, setProgram] = useState<string>();
   const items = links.map((item, index) => (
     <Box<"a">
       component="a"
@@ -79,7 +78,6 @@ export function TableOfContentsFloating({
         onProgramChange(item.label);
         event.preventDefault();
         setActive(index);
-        setProgram(item.label);
       }}
       key={item.label}
       className={cx(classes.link, { [classes.linkActive]: active === index })}

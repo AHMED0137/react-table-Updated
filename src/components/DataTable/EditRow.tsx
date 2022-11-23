@@ -1,10 +1,10 @@
-import { Center, Paper, Title, createStyles } from "@mantine/core";
+import { Center, createStyles, Paper, Title } from "@mantine/core";
 
 import { CellContext } from "@tanstack/react-table";
-import { Form } from "../form";
 import Joi from "joi";
-import { User } from "./DataTable2";
 import { withDrawer } from "../../HOC/withDrawer";
+import { Form } from "../form";
+import { User } from "./DataTable2";
 
 const RowForm = ({ table, row }: CellContext<User, unknown>) => {
   const initialValues = row.original;
@@ -52,7 +52,7 @@ const RowForm = ({ table, row }: CellContext<User, unknown>) => {
           type="number"
         />
         <Form.FormField name={"total"} label="Grand Total" type="number" />
-        <Form.FormButton label="Login" type="submit" />
+        <Form.FormButton label="Done" type="submit" />
       </Form>
     </Paper>
   );

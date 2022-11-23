@@ -3,8 +3,8 @@ import { IconGrowth } from "@tabler/icons";
 import { useState } from "react";
 import "./App.css";
 import { AItem, MainAccordian } from "./components/acordian/acordian";
-import { Table, User } from "./components/DataTable/DataTable2";
-import { TableOfContentsFloating } from "./components/DataTable/MenuList";
+import { ProgramAcordian, ProgramItem } from "./components/acordian/ProgramAcordian";
+import { Table } from "./components/DataTable/DataTable2";
 
 // designed data
 const FormData=[
@@ -17,13 +17,79 @@ const FormData=[
   active: true,
   program:[
     {
-      programId: "Traning 2024",
+      id :"1",
+      prgramTitle: "Traning 2024",
       label:"Traning 2024",
-      link: "",
+      link: " its done",
       order: 1,
+      active: true,
       tableData:[{
        id: 1,
       description: "Training(2024)",
+      notes: "This is required for training camps 2024",
+      otp: "40000",
+      sportsCanada: "23000",
+      nso: "45000",
+      otherSources: "60000",
+      total: "100000",
+    },{
+       id: 2,
+      description: "Training(2024)",
+      notes: "This is required for training camps 2024",
+      otp: "40000",
+      sportsCanada: "23000",
+      nso: "45000",
+      otherSources: "60000",
+      total: "100000",
+    }
+  ]
+    },{
+      id :"2",
+      prgramTitle: "Traning 2028",
+      label:"Traning 2028",
+      link: " its done",
+      order: 1,
+      active: true,
+      tableData:[{
+       id: 1,
+      description: "Training(2028)",
+      notes: "This is required for training camps 2024",
+      otp: "40000",
+      sportsCanada: "23000",
+      nso: "45000",
+      otherSources: "60000",
+      total: "100000",
+    },{
+       id: 2,
+      description: "Training(2028)",
+      notes: "This is required for training camps 2024",
+      otp: "40000",
+      sportsCanada: "23000",
+      nso: "45000",
+      otherSources: "60000",
+      total: "100000",
+    }
+  ]
+    },
+  ],
+},{
+  id :"2",
+  prgramTitle: "National",
+  programSubTitle: "Performance Sciences Research and Innovation Funding to NSO",
+  Icon: <IconGrowth color="orange" />,
+  message: "Total: $60,000",
+  active: true,
+  program:[
+    {
+      id :"1",
+      prgramTitle: "Traning 2026",
+      label:"Traning 2024",
+      link: " its done",
+      order: 1,
+      active: true,
+      tableData:[{
+       id: 1,
+      description: "Training(2026)",
       notes: "This is required for training camps 2024",
       otp: "40000",
       sportsCanada: "23000",
@@ -41,51 +107,37 @@ const FormData=[
       total: "100000",
     }
   ]
-    }, {
-      programId: "Traning 2028",
-      label:"Traning 2028",
-      link: "",
-      order: 1,
-      tableData:[{
-       id: 1,
-      description: "Training(2028)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    },{
-       id: 2,
-      description: "Training(2028)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    }
-  ]
-    }
+    },
   ],
-},
+}
 ]
 function App() { 
   const [activeBlock, setActiveBlock] = useState<Array<string>>([]);
-    const [selectedProgram, setSelectedProgram] = useState<string>(" ");
 
-// function to get program
-const getProgram=(program:string)=>{
-// console.log("app file"+program);
-setSelectedProgram(program)
-}
+  // Function that returns inner accordian table Data
+  function getTable (): Array<ProgramItem>{
+    const [getFormAcordianData]=FormData.map((item)=>{
+    const FormAcordian=item.program.map((value)=>{
+      const TableData=value.tableData.map((data)=>data)
+        return {
+          id:value.id,
+          label:value.prgramTitle,
+          active:value.active,
+          message:value.link,
+          panel:(
+              <div className="flex-1">
+              <Table tableData={TableData}/>
+              </div>
+          )}
+      })
+      return FormAcordian;
+    })
+    return getFormAcordianData;
+  }
 
+  // Function that returns Main accordian with inner accordian
   function getAItems(): Array<AItem>{
     const getitem=FormData.map((item) => {
-    const rowData:Array<User> =item.program.map((value)=>{
-      const [myData]= value.tableData.map((data)=>{return {...data}})
-      return myData;
-    }) 
     return {
      id:item.id,
      title:item.programSubTitle,
@@ -94,17 +146,12 @@ setSelectedProgram(program)
       Icon:item.Icon,
       message:item.message,
       panel: (
-        <div className="flex flex-col bg-white xl:flex-row">
-          <div className="p-4 pt-20">
-            <TableOfContentsFloating links={item.program}  onProgramChange={getProgram}/>
-          </div>
-          <div className="flex-1">
-            <Table tableData={rowData}/>
-          </div>
-        </div>)
-      }
-    }
-    )
+       <ProgramAcordian
+       data={getTable()}
+       value={activeBlock}
+       onChange={setActiveBlock}
+       />
+      )}})
     return getitem;
   }
   
@@ -116,7 +163,6 @@ setSelectedProgram(program)
           className="flex flex-col"
           onSubmit={(e) => {
             e.preventDefault();
-            console.log("submitted");
           }}
         >
           <div className="flex items-start justify-center p-10">

@@ -1,19 +1,16 @@
 import {
   CellContext,
   ColumnDef,
-  FilterFn,
-  OnChangeFn,
-  RowSelectionState,
-  TableMeta,
-  getCoreRowModel,
+  FilterFn, getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
+  getPaginationRowModel, OnChangeFn,
+  RowSelectionState,
+  TableMeta, useReactTable
 } from "@tanstack/react-table";
 
-import { Id } from "./types";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { useMemo } from "react";
+import { Id } from "./types";
 
 interface TableProps<T extends { id: Id }> {
   data: Array<T>;
@@ -46,7 +43,7 @@ export function useTable<T extends { id: Id }>({
   };
 
   const enablePagination = () => {
-    console.log(pagination);
+    // console.log(pagination);
     return pagination ? { pageSize: 10, pageIndex: 0 } : undefined;
   };
 
