@@ -22,9 +22,9 @@ export function ProgramAcordian({ data, value, onChange }: AccordionProps) {
         <Accordion.Item key={item.id} value={item.label}>
           <Accordion.Control>
             <div className="flex flex-row">
-              <div className="flex-1 text-lg text-orange-500">{item.label}</div>
+              <div className="flex-1 text-md text-neutral-500">{item.label}</div>
               {item.message && (
-                <div className="text-lg font-semibold text-orange-500">
+                <div className="text-lg font-semibold text-neutral-500">
                   {item.message}
                 </div>
               )}

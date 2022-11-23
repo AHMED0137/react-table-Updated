@@ -20,7 +20,7 @@ const FormData=[
       id :"1",
       prgramTitle: "Traning 2024",
       label:"Traning 2024",
-      link: " its done",
+      link: "...",
       order: 1,
       active: true,
       tableData:[{
@@ -47,7 +47,7 @@ const FormData=[
       id :"2",
       prgramTitle: "Traning 2028",
       label:"Traning 2028",
-      link: " its done",
+      link: "...",
       order: 1,
       active: true,
       tableData:[{
@@ -84,7 +84,7 @@ const FormData=[
       id :"1",
       prgramTitle: "Traning 2026",
       label:"Traning 2024",
-      link: " its done",
+      link: "...",
       order: 1,
       active: true,
       tableData:[{
