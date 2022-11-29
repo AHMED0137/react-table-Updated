@@ -1,23 +1,20 @@
-import { HeaderGroup, flexRender } from "@tanstack/react-table";
+import { HeaderGroup, flexRender } from '@tanstack/react-table';
 
-import React from "react";
+import { Id } from './types';
+import React from 'react';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Text } from "@mantine/core";
+import { Text } from '@mantine/core';
 
-export interface TFooterProps<TData extends { id: string | number }> {
+export interface TFooterProps<TData extends { id: Id }> {
   footerHeader: HeaderGroup<TData>[];
   message?: string;
   footerStyleClasses?: {
-    trClassName?: React.HtmlHTMLAttributes<"tr">["className"];
-    thClassName?: React.HtmlHTMLAttributes<"th">["className"];
+    trClassName?: React.HtmlHTMLAttributes<'tr'>['className'];
+    thClassName?: React.HtmlHTMLAttributes<'th'>['className'];
   };
 }
 
-export function TFooter<TData extends { id: string | number }>({
-  footerHeader,
-  message,
-  footerStyleClasses,
-}: TFooterProps<TData>) {
+export function TFooter<TData extends { id: Id }>({ footerHeader, message, footerStyleClasses }: TFooterProps<TData>) {
   const { thClassName, trClassName } = footerStyleClasses || {};
   return (
     <React.Fragment>
@@ -31,12 +28,7 @@ export function TFooter<TData extends { id: string | number }>({
                 className={thClassName}
                 style={{ width: `${header.column.getSize()}px` }}
               >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.footer,
-                      header.getContext()
-                    )}
+                {header.isPlaceholder ? null : flexRender(header.column.columnDef.footer, header.getContext())}
               </th>
             ))}
           </tr>

@@ -1,27 +1,20 @@
-import { RowData } from "@tanstack/react-table";
+import { RowData } from '@tanstack/react-table';
 
 export type Id = string | number;
-export type Status = "deleted" | "updated" | "new";
+export type Status = 'deleted' | 'updated' | 'new';
 
-declare module "@tanstack/react-table" {
+declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
-    updateData: (rowId: Id, columnId: string, value: unknown) => void;
     getState: () => TableData<TData>;
-    isRowEditting: (rowId: Id) => boolean;
-    setRowEditing: (rowId: Id, mode: boolean) => void;
-    copyRow: (rowId: Id) => void;
     setState: React.Dispatch<React.SetStateAction<TableData<TData>>>;
     deleteRow: (rowId: Id) => void;
-    cancelEdit: (rowId: Id) => void;
+    updateRow: (rowId: Id, row: TData) => void;
   }
 }
 
 export type RowState<T extends RowData> = {
-  rowId?: string | number;
-  isEditing?: boolean;
-  isCopy?:boolean;
-  rowStatus?: Status;
-  isChanged?: boolean; // TODO: this would be deleted when rowStatus is working fine
+  rowId?: Id;
+  isChanged?: boolean;
   updatedRow?: T;
 };
 

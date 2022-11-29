@@ -5,23 +5,17 @@ import {
   CellContext,
   ColumnDef,
   OnChangeFn,
-  RowSelectionState
-} from "@tanstack/react-table";
-import React, { useEffect, useState } from "react";
-import {
-  cancelRowEdit, copyTableRow, deleteTableRow,
-  isTableRowInEditMode,
-  setTableRowInEditMode,
-  updateTableRow
-} from "./tableUtils";
-import { Id, RowState, TableData } from "./types";
+  RowSelectionState,
+} from '@tanstack/react-table';
+import { Id, RowState, TableData } from './types';
+import React, { useEffect, useState } from 'react';
+import { deleteTableRow, updateTableRow } from './tableUtils';
 
-import { differenceWith } from "lodash";
-import { TableUI } from "./TableUI";
-import { TBodyProps } from "./TBody";
-import { TFooterProps } from "./TFooter";
-import { THeaderProps } from "./THeader";
-import { useTable } from "./useTable";
+import { TBodyProps } from './TBody';
+import { TFooterProps } from './TFooter';
+import { THeaderProps } from './THeader';
+import { TableUI } from './TableUI';
+import { useTable } from './useTable';
 
 export type DataTableProps<T extends { id: Id }> = {
   data: Array<T>;
@@ -32,28 +26,13 @@ export type DataTableProps<T extends { id: Id }> = {
   RowUI?: React.JSXElementConstructor<CellContext<T, unknown>>;
   onRowUpdate?: (rows: RowState<T>[]) => void;
   onRowDelete?: (rowId: string | number) => void;
-  onRowCopy ?: (rowId: string | number) => void;
   rowsSelected?: RowSelectionState;
   onRowsSelected?: OnChangeFn<RowSelectionState>;
   className?: string;
-  bodyStyleClasses?: TBodyProps<T>["bodyStyleClasses"];
-  footerStyleClasses?: TFooterProps<T>["footerStyleClasses"];
-  headerStyleClasses?: THeaderProps<T>["headerStyleClasses"];
+  bodyStyleClasses?: TBodyProps<T>['bodyStyleClasses'];
+  footerStyleClasses?: TFooterProps<T>['footerStyleClasses'];
+  headerStyleClasses?: THeaderProps<T>['headerStyleClasses'];
 };
-
-function useSkipper() {
-  const shouldSkipRef = React.useRef(true);
-  const shouldSkip = shouldSkipRef.current;
-  // Wrap a function with this to skip a pagination reset temporarily
-  const skip = React.useCallback(() => {
-    shouldSkipRef.current = false;
-  }, []);
-
-  React.useEffect(() => {
-    shouldSkipRef.current = true;
-  });
-  return [shouldSkip, skip] as const;
-}
 
 export function DataTable<T extends { id: Id }>({
   data: initialTableData,
@@ -65,7 +44,6 @@ export function DataTable<T extends { id: Id }>({
   RowUI,
   onRowUpdate,
   onRowDelete,
-  onRowCopy,
   headerStyleClasses,
   bodyStyleClasses,
   footerStyleClasses,
@@ -77,73 +55,33 @@ export function DataTable<T extends { id: Id }>({
     changedRows: [],
   });
 
-  const [, skipAutoResetPageIndex] = useSkipper();
+  // update the table internal state when data from outside changes
+  useEffect(() => {
+    setTableData((old) => ({
+      ...old,
+      data: initialTableData,
+    }));
+  }, [initialTableData]);
 
   // fire onRowUpdate event when changedRows gets updated.
   useEffect(() => {
     if (onRowUpdate) {
       onRowUpdate(
-        tableData.changedRows.filter(
-          (item) => item.isChanged === true && item.isEditing === false
-        )
+        tableData.changedRows.filter((item) => item.isChanged === true)
       );
     }
   }, [tableData]);
 
-  useEffect(() => {
-    const newRow = differenceWith(
-      initialTableData,
-      tableData.data,
-      (a, b) => a.id === b.id
-    );
-
-    if (newRow.length > 0) {
-      const data = [...newRow, ...tableData.data];
-      const changedRow: RowState<T> = {
-        rowId: newRow[0].id,
-        isChanged: false,
-        isEditing: true,
-        updatedRow: { ...newRow[0] },
-      };
-      setTableData((old) => {
-        return {
-          data,
-          changedRows: [...old.changedRows, changedRow],
-        };
-      });
-    }
-  }, [initialTableData]);
-
-  // update table row
-  const updateRow = (rowId: Id, columnId: string, value: unknown) => {
-    skipAutoResetPageIndex();
-    setTableData(updateTableRow(tableData, rowId, columnId, value));
-  };
-
-  const isRowEditting = (rowId: Id) => {
-    return isTableRowInEditMode(tableData, rowId);
-  };
-
-  // sets the given row in edit mode
-  const setRowEditing = (rowId: Id, mode: boolean) => {
-    setTableData(setTableRowInEditMode(tableData, rowId, mode));
-  };
-
-// delete row with a given index
-  const copyRow = (rowId: Id) => {
-    if (onRowCopy) onRowCopy(rowId);
-    setTableData(copyTableRow(tableData, rowId));
-  };
-
   // delete row with a given index
   const deleteRow = (rowId: Id) => {
+    console.log(rowId);
     if (onRowDelete) onRowDelete(rowId);
     setTableData(deleteTableRow(tableData, rowId));
   };
 
-  // cancelEditting cell within a given row
-  const cancelEdit = (rowId: Id) => {
-    setTableData(cancelRowEdit(tableData, rowId));
+  // editRow
+  const updateRow = (rowId: Id, row: T) => {
+    setTableData(updateTableRow(tableData, rowId, row));
   };
 
   const table = useTable({
@@ -152,19 +90,14 @@ export function DataTable<T extends { id: Id }>({
     RowUI,
     pagination,
     search,
-
     onRowsSelected,
     rowsSelected,
 
     meta: {
-      updateData: updateRow,
-      isRowEditting,
-      copyRow,
-      setRowEditing,
       deleteRow,
-      cancelEdit,
-      setState: setTableData,
+      updateRow,
       getState: () => tableData,
+      setState: setTableData,
     },
   });
 

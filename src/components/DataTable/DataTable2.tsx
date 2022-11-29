@@ -2,11 +2,11 @@ import { Button, Input } from "@mantine/core";
 import { IconPlus, IconSearch } from "@tabler/icons";
 import React, { useState } from "react";
 
-import { max } from "lodash";
 import { DataTable } from "../data-table";
 import { RowState } from "../data-table/types";
 import { SimpleRow } from "./SimpleRow";
 import { getColumns } from "./TableSchema";
+import { max } from "lodash";
 
 /* eslint-disable react-hooks/exhaustive-deps */
 
@@ -27,10 +27,10 @@ export type TableData<TData extends { id: string | number }> = {
 };
 
 interface TableProps {
-  tableData:Array<User>;
+  tableData: Array<User>;
 }
 
-export function Table({tableData}:TableProps) {
+export function Table({ tableData }: TableProps) {
   const [search, setSearchText] = useState<string>();
   const [data, setData] = useState<Array<User>>(tableData);
   const [selectedRows, setSelectedRows] = useState({});
@@ -50,10 +50,10 @@ export function Table({tableData}:TableProps) {
     console.log(newData);
     setData(newData);
   }
-function handleOnRowCopy(rowId: number | string) {
-    const [copyData]=data.filter((value)=> value.id=== rowId)
-    const index=data.indexOf(copyData)+1;
-    console.log("index of",index);
+  function handleOnRowCopy(rowId: number | string) {
+    const [copyData] = data.filter((value) => value.id === rowId);
+    const index = data.indexOf(copyData) + 1;
+    console.log("index of", index);
     const newRow: User = {
       id: (max(data.map((item) => item.id)) ?? 0) + 1,
       description: copyData.description,
@@ -64,7 +64,7 @@ function handleOnRowCopy(rowId: number | string) {
       otherSources: copyData.otherSources,
       total: copyData.total,
     };
-    data.splice(index,0,newRow);
+    data.splice(index, 0, newRow);
     console.log(data);
     const newData = [...data];
     setData(newData);
@@ -117,10 +117,9 @@ function handleOnRowCopy(rowId: number | string) {
           columns={getColumns()}
           onRowUpdate={handleOnRowUpdate}
           onRowDelete={handleRowDelete}
-          onRowCopy={handleOnRowCopy}
           RowUI={SimpleRow}
           search={search}
-          className="bottom-2 w-full border-collapse"
+          className="bottom-2 w-full table-fixed border-collapse"
           bodyStyleClasses={bodyStyleClasses}
           headerStyleClasses={headerStyleClasses}
           rowsSelected={selectedRows}

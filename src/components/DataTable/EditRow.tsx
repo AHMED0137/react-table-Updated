@@ -1,9 +1,11 @@
-import { Center, createStyles, Paper, Title } from "@mantine/core";
+import { Center, Paper, Title, createStyles } from "@mantine/core";
+
 import { CellContext } from "@tanstack/react-table";
+import { Form } from "../form";
 import Joi from "joi";
 import { MyModal } from "../../HOC/Modal";
-import { Form } from "../form";
 import { User } from "./DataTable2";
+
 const RowForm = ({ table, row }: CellContext<User, unknown>) => {
   let initialValues = row.original;
   const schema = Joi.object<User>({
@@ -21,7 +23,7 @@ const RowForm = ({ table, row }: CellContext<User, unknown>) => {
 
   function handleFormSubmit(formValues: User) {
     console.log(formValues);
-    initialValues=formValues;
+    initialValues = formValues;
   }
 
   return (
@@ -51,7 +53,12 @@ const RowForm = ({ table, row }: CellContext<User, unknown>) => {
           type="number"
         />
         <Form.FormField name={"total"} label="Grand Total" type="number" />
-        <Form.FormButton label="Done" className="mt-2" color="orange" type="submit" />
+        <Form.FormButton
+          label="Done"
+          className="mt-2"
+          color="orange"
+          type="submit"
+        />
       </Form>
     </Paper>
   );

@@ -1,6 +1,7 @@
-import { NumberInput, Pagination, Select, Text } from "@mantine/core";
+import { NumberInput, Pagination, Select } from "@mantine/core";
 
 import { Group } from "@mantine/core";
+import { Text } from "../text";
 import { useState } from "react";
 
 interface TPaginationProps {
@@ -17,10 +18,10 @@ export function TPagination({
   onPageSizeChange,
 }: TPaginationProps) {
   const [goTopage, setGoToPage] = useState<number | undefined>();
-  const [pageSize, setPageSize] = useState<string | null>("5");
+  const [pageSize, setPageSize] = useState<string | null>("10");
 
   return (
-    <Group position="right" mt={10}>
+    <Group className="mt-4 p-4" position={"right"}>
       <Pagination
         page={page}
         total={total}
@@ -28,7 +29,9 @@ export function TPagination({
         size="xs"
       />
 
-      <Text>{"Go to page num"}</Text>
+      <Text size={"sm"} fontStyle="italic">
+        {"jump to page"}
+      </Text>
       <NumberInput
         value={goTopage}
         onChange={handlePageChange}
@@ -37,16 +40,20 @@ export function TPagination({
         size="xs"
       />
 
-      <Text>{"Rows"}</Text>
+      <Text size={"sm"} fontStyle="italic">
+        {"records"}
+      </Text>
       <Select
         searchable
         value={pageSize}
         nothingFound="No options"
-        data={["5", "10", "15", "20"]}
+        data={["10", "20", "30", "50"]}
         onChange={handlePageSizeChange}
         size="xs"
       />
-      <Text>{"page"}</Text>
+      <Text size={"sm"} fontStyle="italic">
+        {"page"}
+      </Text>
     </Group>
   );
 
