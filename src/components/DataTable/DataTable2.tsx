@@ -50,6 +50,25 @@ export function Table({tableData}:TableProps) {
     console.log(newData);
     setData(newData);
   }
+function handleOnRowCopy(rowId: number | string) {
+    const [copyData]=data.filter((value)=> value.id=== rowId)
+    const index=data.indexOf(copyData)+1;
+    console.log("index of",index);
+    const newRow: User = {
+      id: (max(data.map((item) => item.id)) ?? 0) + 1,
+      description: copyData.description,
+      sportsCanada: copyData.sportsCanada,
+      otp: copyData.otp,
+      nso: copyData.nso,
+      notes: copyData.notes,
+      otherSources: copyData.otherSources,
+      total: copyData.total,
+    };
+    data.splice(index,0,newRow);
+    console.log(data);
+    const newData = [...data];
+    setData(newData);
+  }
 
   function handleOnRowUpdate(rows: Array<RowState<User>>) {
     console.log("handling Row Update", rows);
@@ -98,6 +117,7 @@ export function Table({tableData}:TableProps) {
           columns={getColumns()}
           onRowUpdate={handleOnRowUpdate}
           onRowDelete={handleRowDelete}
+          onRowCopy={handleOnRowCopy}
           RowUI={SimpleRow}
           search={search}
           className="bottom-2 w-full border-collapse"

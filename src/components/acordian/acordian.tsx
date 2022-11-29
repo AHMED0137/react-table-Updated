@@ -21,7 +21,7 @@ export function MainAccordian({ data, value, onChange }: AccordionProps) {
   return (
     <Accordion variant="contained" multiple value={value} onChange={onChange}>
       {data.map((item) => (
-        <Accordion.Item key={item.id} value={item.label}>
+        <Accordion.Item key={item.id} value={item.label} >
           <Accordion.Control icon={item.Icon}>
             <div className="flex flex-row">
               <div className="flex-1 text-lg text-Stone-800">{item.label}</div>

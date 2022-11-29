@@ -25,6 +25,15 @@ const FormData=[
       active: true,
       tableData:[{
        id: 1,
+      description: "Training(2026)",
+      notes: "This is required for training camps 2026",
+      otp: "40000",
+      sportsCanada: "23000",
+      nso: "45000",
+      otherSources: "60000",
+      total: "100000",
+    },{
+       id: 2,
       description: "Training(2024)",
       notes: "This is required for training camps 2024",
       otp: "40000",
@@ -32,82 +41,9 @@ const FormData=[
       nso: "45000",
       otherSources: "60000",
       total: "100000",
-    },{
-       id: 2,
-      description: "Training(2024)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
     }
   ]
-    },{
-      id :"2",
-      prgramTitle: "Traning 2028",
-      label:"Traning 2028",
-      link: "...",
-      order: 1,
-      active: true,
-      tableData:[{
-       id: 1,
-      description: "Training(2028)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    },{
-       id: 2,
-      description: "Training(2028)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
     }
-  ]
-    },
-  ],
-},{
-  id :"2",
-  prgramTitle: "National",
-  programSubTitle: "Performance Sciences Research and Innovation Funding to NSO",
-  Icon: <IconGrowth color="orange" />,
-  message: "Total: $60,000",
-  active: true,
-  program:[
-    {
-      id :"1",
-      prgramTitle: "Traning 2026",
-      label:"Traning 2024",
-      link: "...",
-      order: 1,
-      active: true,
-      tableData:[{
-       id: 1,
-      description: "Training(2026)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    },{
-       id: 2,
-      description: "Training(2026)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
-    }
-  ]
-    },
   ],
 }
 ]
@@ -116,14 +52,14 @@ function App() {
 
   // Function that returns inner accordian table Data
   function getTable (): Array<ProgramItem>{
-    const [getFormAcordianData]=FormData.map((item)=>{
-    const FormAcordian=item.program.map((value)=>{
-      const TableData=value.tableData.map((data)=>data)
+    const [getFormAcordianData]=FormData?.map((item)=>{
+    const FormAcordian=item?.program?.map((value)=>{
+      const TableData=value?.tableData?.map((data)=>data)
         return {
-          id:value.id,
-          label:value.prgramTitle,
-          active:value.active,
-          message:value.link,
+          id:value?.id,
+          label:value?.prgramTitle,
+          active:value?.active,
+          message:value?.link,
           panel:(
               <div className="flex-1">
               <Table tableData={TableData}/>
@@ -138,10 +74,12 @@ function App() {
   // Function that returns Main accordian with inner accordian
   function getAItems(): Array<AItem>{
     const getitem=FormData.map((item) => {
+      const label=item?.programSubTitle?.split(' ')?.at(0) || " ";
+      console.log(label);
     return {
      id:item.id,
      title:item.programSubTitle,
-     label:item.prgramTitle,
+     label:label,
       active:item.active,
       Icon:item.Icon,
       message:item.message,

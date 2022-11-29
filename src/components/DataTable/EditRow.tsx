@@ -1,14 +1,11 @@
 import { Center, createStyles, Paper, Title } from "@mantine/core";
-
 import { CellContext } from "@tanstack/react-table";
 import Joi from "joi";
-import { withDrawer } from "../../HOC/withDrawer";
+import { MyModal } from "../../HOC/Modal";
 import { Form } from "../form";
 import { User } from "./DataTable2";
-
 const RowForm = ({ table, row }: CellContext<User, unknown>) => {
-  const initialValues = row.original;
-
+  let initialValues = row.original;
   const schema = Joi.object<User>({
     id: Joi.number(),
     nso: Joi.string().required(),
@@ -24,6 +21,7 @@ const RowForm = ({ table, row }: CellContext<User, unknown>) => {
 
   function handleFormSubmit(formValues: User) {
     console.log(formValues);
+    initialValues=formValues;
   }
 
   return (
@@ -38,21 +36,22 @@ const RowForm = ({ table, row }: CellContext<User, unknown>) => {
         onFormSubmit={handleFormSubmit}
         schema={schema}
       >
-        <Form.FormField name={"nso"} label="NSO" type="text" />
-        <Form.FormField name={"description"} label="Notes" type="text" />
+        <Form.FormField name={"description"} label="Description" type="text" />
+        <Form.FormField name={"notes"} label="Notes" type="text" />
         <Form.FormField name={"otp"} label="OTP Sources" type="number" />
         <Form.FormField
           name={"sportsCanada"}
           label="Sports Canada"
           type="number"
         />
+        <Form.FormField name={"nso"} label="NSO" type="text" />
         <Form.FormField
           name={"otherSources"}
           label="Other Sources"
           type="number"
         />
         <Form.FormField name={"total"} label="Grand Total" type="number" />
-        <Form.FormButton label="Done" type="submit" />
+        <Form.FormButton label="Done" className="mt-2" color="orange" type="submit" />
       </Form>
     </Paper>
   );
@@ -60,7 +59,7 @@ const RowForm = ({ table, row }: CellContext<User, unknown>) => {
 
 RowForm.displayName = "RowForm";
 
-export const RowFormWithDrawer = withDrawer(RowForm);
+export const RowFormWithDrawer = MyModal(RowForm);
 
 const useStyles = createStyles((theme) => ({
   paper: {
@@ -69,10 +68,10 @@ const useStyles = createStyles((theme) => ({
   form: {
     display: "flex",
     flexDirection: "column",
-    marginTop: theme.spacing.xl,
+    marginTop: theme.spacing.lg,
   },
   formField: {
-    marginTop: theme.spacing.md,
-    marginBottom: theme.spacing.md,
+    marginTop: theme.spacing.lg,
+    marginBottom: theme.spacing.lg,
   },
 }));

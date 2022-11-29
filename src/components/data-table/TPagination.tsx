@@ -17,10 +17,10 @@ export function TPagination({
   onPageSizeChange,
 }: TPaginationProps) {
   const [goTopage, setGoToPage] = useState<number | undefined>();
-  const [pageSize, setPageSize] = useState<string | null>("10");
+  const [pageSize, setPageSize] = useState<string | null>("5");
 
   return (
-    <Group>
+    <Group position="right" mt={10}>
       <Pagination
         page={page}
         total={total}
@@ -42,7 +42,7 @@ export function TPagination({
         searchable
         value={pageSize}
         nothingFound="No options"
-        data={["10", "20", "30", "50"]}
+        data={["5", "10", "15", "20"]}
         onChange={handlePageSizeChange}
         size="xs"
       />

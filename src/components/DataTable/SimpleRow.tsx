@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 
 import { CellContext } from "@tanstack/react-table";
-import { ControlActions } from "./ActionButtons";
-import { RowFormWithDrawer } from "./EditRow";
-import { User } from "./DataTable2";
 import { isTableRowInEditMode } from "../data-table";
+import { ControlActions } from "./ActionButtons";
+import { User } from "./DataTable2";
+import { RowFormWithDrawer } from "./EditRow";
 
 export function SimpleRow(props: CellContext<User, unknown>) {
   const { getValue, table, row, cell } = props;

@@ -3,10 +3,10 @@ import { TFooter, TFooterProps } from "./TFooter";
 import { THeader, THeaderProps } from "./THeader";
 
 import { Table as MTable } from "@mantine/core";
-import TPagination from "./TPagination";
+import { useMediaQuery } from "@mantine/hooks";
 import { Table } from "@tanstack/react-table";
 import { TableAccordian } from "./table-accordian";
-import { useMediaQuery } from "@mantine/hooks";
+import TPagination from "./TPagination";
 
 type Id = string | number;
 

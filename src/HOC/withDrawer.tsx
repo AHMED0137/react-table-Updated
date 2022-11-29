@@ -16,7 +16,7 @@ export function withDrawer<T extends Object>(
   }: T & DrawerProps) {
     return (
       <>
-        <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+        {/* <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
           <Drawer
             opened={opened}
             onClose={onClose}
@@ -27,7 +27,7 @@ export function withDrawer<T extends Object>(
           >
             <Component {...(rest as T & DrawerProps)} />
           </Drawer>
-        </MediaQuery>
+        </MediaQuery> */}
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Drawer
             opened={opened}

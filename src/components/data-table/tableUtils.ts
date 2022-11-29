@@ -95,6 +95,21 @@ export function setTableRowInEditMode<T extends { id: Id }>(
   return { data, changedRows };
 }
 
+export function copyTableRow<T extends { id: Id }>(
+  tableData: TableData<T>,
+  rowId: Id
+) {
+  localStorage.getItem(rowId.toString());
+  return {
+    data: tableData.data.filter((item) => item.id !== rowId),
+    changedRows:
+      tableData.changedRows.filter((item) => item.updatedRow?.id !== rowId) ??
+      [],
+  };
+}
+
+
+
 export function deleteTableRow<T extends { id: Id }>(
   tableData: TableData<T>,
   rowId: Id

@@ -5,23 +5,22 @@ import {
   CellContext,
   ColumnDef,
   OnChangeFn,
-  RowSelectionState,
+  RowSelectionState
 } from "@tanstack/react-table";
-import { Id, RowState, TableData } from "./types";
 import React, { useEffect, useState } from "react";
 import {
-  cancelRowEdit,
-  deleteTableRow,
+  cancelRowEdit, copyTableRow, deleteTableRow,
   isTableRowInEditMode,
   setTableRowInEditMode,
-  updateTableRow,
+  updateTableRow
 } from "./tableUtils";
+import { Id, RowState, TableData } from "./types";
 
+import { differenceWith } from "lodash";
+import { TableUI } from "./TableUI";
 import { TBodyProps } from "./TBody";
 import { TFooterProps } from "./TFooter";
 import { THeaderProps } from "./THeader";
-import { TableUI } from "./TableUI";
-import { differenceWith } from "lodash";
 import { useTable } from "./useTable";
 
 export type DataTableProps<T extends { id: Id }> = {
@@ -33,6 +32,7 @@ export type DataTableProps<T extends { id: Id }> = {
   RowUI?: React.JSXElementConstructor<CellContext<T, unknown>>;
   onRowUpdate?: (rows: RowState<T>[]) => void;
   onRowDelete?: (rowId: string | number) => void;
+  onRowCopy ?: (rowId: string | number) => void;
   rowsSelected?: RowSelectionState;
   onRowsSelected?: OnChangeFn<RowSelectionState>;
   className?: string;
@@ -65,6 +65,7 @@ export function DataTable<T extends { id: Id }>({
   RowUI,
   onRowUpdate,
   onRowDelete,
+  onRowCopy,
   headerStyleClasses,
   bodyStyleClasses,
   footerStyleClasses,
@@ -128,6 +129,12 @@ export function DataTable<T extends { id: Id }>({
     setTableData(setTableRowInEditMode(tableData, rowId, mode));
   };
 
+// delete row with a given index
+  const copyRow = (rowId: Id) => {
+    if (onRowCopy) onRowCopy(rowId);
+    setTableData(copyTableRow(tableData, rowId));
+  };
+
   // delete row with a given index
   const deleteRow = (rowId: Id) => {
     if (onRowDelete) onRowDelete(rowId);
@@ -152,6 +159,7 @@ export function DataTable<T extends { id: Id }>({
     meta: {
       updateData: updateRow,
       isRowEditting,
+      copyRow,
       setRowEditing,
       deleteRow,
       cancelEdit,

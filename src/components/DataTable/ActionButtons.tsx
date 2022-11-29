@@ -1,5 +1,5 @@
 import { ActionIcon, Group } from "@mantine/core";
-import { Backspace, DeviceFloppy, Edit, Trash } from "tabler-icons-react";
+import { Backspace, Copy, DeviceFloppy, Edit, Trash } from "tabler-icons-react";
 
 import { CellContext } from "@tanstack/react-table";
 import { FC } from "react";
@@ -16,6 +16,15 @@ const actionButtons = {
         radius="xl"
       >
         <Edit />
+      </ActionIcon>
+      <ActionIcon
+        onClick={() => {
+          onClick?.("copyClick", rowId);
+        }}
+        size={"lg"}
+        radius="xl"
+      >
+        <Copy />
       </ActionIcon>
       <ActionIcon
         onClick={() => onCancel?.("deleteClick", rowId)}
@@ -53,25 +62,26 @@ type ViewActionsProps = {
   rowId: string | number;
   key: string;
   onClick?: (
-    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick",
+    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick" | "copyClick",
     rowIndex: string | number
   ) => void;
   onCancel?: (
-    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick",
+    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick" | "copyClick",
     rowIndex: string | number
   ) => void;
 };
+
 
 type EditActionsProps = {
   actionType: "edit";
   rowId: string | number;
   key: string;
   onClick?: (
-    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick",
+    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick" | "copyClick",
     rowId: string | number
   ) => void;
   onCancel?: (
-    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick",
+    action: "saveClick" | "cancelClick" | "deleteClick" | "editClick" | "copyClick",
     rowIndex: string | number
   ) => void;
 };
@@ -94,6 +104,7 @@ export const ControlActions = <T extends { id: string | number }>({
 }: CellContext<T, unknown>) => {
   const tableState = table.options.meta?.getState();
 
+  // row is editing
   const isRowEditing = (tableState: TableData<T>) => {
     const { changedRows } = tableState;
     const index = changedRows.findIndex(
@@ -107,12 +118,15 @@ export const ControlActions = <T extends { id: string | number }>({
   return (
     <ActionButtons
       key={cell.column.id + row.index}
-      actionType={isEditting ? "edit" : "view"}
+      actionType={isEditting ? "view" : "view"}
       onClick={(action, rowId) => {
         if (action === "editClick")
           table.options.meta?.setRowEditing(rowId, true);
         else if (action === "saveClick") {
           table.options.meta?.setRowEditing(rowId, false);
+        }
+        else if (action === "copyClick") {
+          table.options.meta?.copyRow(rowId);
         }
       }}
       onCancel={(action, rowId) => {

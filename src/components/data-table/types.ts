@@ -9,6 +9,7 @@ declare module "@tanstack/react-table" {
     getState: () => TableData<TData>;
     isRowEditting: (rowId: Id) => boolean;
     setRowEditing: (rowId: Id, mode: boolean) => void;
+    copyRow: (rowId: Id) => void;
     setState: React.Dispatch<React.SetStateAction<TableData<TData>>>;
     deleteRow: (rowId: Id) => void;
     cancelEdit: (rowId: Id) => void;
@@ -18,6 +19,7 @@ declare module "@tanstack/react-table" {
 export type RowState<T extends RowData> = {
   rowId?: string | number;
   isEditing?: boolean;
+  isCopy?:boolean;
   rowStatus?: Status;
   isChanged?: boolean; // TODO: this would be deleted when rowStatus is working fine
   updatedRow?: T;
