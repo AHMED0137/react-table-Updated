@@ -3,7 +3,6 @@ import { IconPlus, IconSearch } from "@tabler/icons";
 import React, { useState } from "react";
 
 import { DataTable } from "../data-table";
-import { RowState } from "../data-table/types";
 import { SimpleRow } from "./SimpleRow";
 import { getColumns } from "./TableSchema";
 import { max } from "lodash";
@@ -19,11 +18,6 @@ export type User = {
   nso: string;
   otherSources: string;
   total: string;
-};
-
-export type TableData<TData extends { id: string | number }> = {
-  data: Array<TData>;
-  changedRows: Array<RowState<TData>>;
 };
 
 interface TableProps {
@@ -47,36 +41,8 @@ export function Table({ tableData }: TableProps) {
       total: "",
     };
     const newData = [...data, newRow];
-    console.log(newData);
-    setData(newData);
-  }
-  function handleOnRowCopy(rowId: number | string) {
-    const [copyData] = data.filter((value) => value.id === rowId);
-    const index = data.indexOf(copyData) + 1;
-    console.log("index of", index);
-    const newRow: User = {
-      id: (max(data.map((item) => item.id)) ?? 0) + 1,
-      description: copyData.description,
-      sportsCanada: copyData.sportsCanada,
-      otp: copyData.otp,
-      nso: copyData.nso,
-      notes: copyData.notes,
-      otherSources: copyData.otherSources,
-      total: copyData.total,
-    };
-    data.splice(index, 0, newRow);
-    console.log(data);
-    const newData = [...data];
-    setData(newData);
-  }
 
-  function handleOnRowUpdate(rows: Array<RowState<User>>) {
-    console.log("handling Row Update", rows);
-  }
-
-  function handleRowDelete(rowId: string | number) {
-    const rows = [...data];
-    setData(rows.filter((item) => item.id !== rowId));
+    setData(newData);
   }
 
   const headerStyleClasses = {
@@ -85,7 +51,7 @@ export function Table({ tableData }: TableProps) {
       "border-0 border-b-2 border-l-2 border-solid border-slate-100 py-2 px-2 text-left text-xs ",
   };
   const bodyStyleClasses = {
-    tdClassName: "text-xs",
+    tdClassName: "text-xs p-2",
     trClassName: "even:bg-slate-100 text-left text-slate-600 text-xs",
   };
 
@@ -115,8 +81,6 @@ export function Table({ tableData }: TableProps) {
         <DataTable
           data={data}
           columns={getColumns()}
-          onRowUpdate={handleOnRowUpdate}
-          onRowDelete={handleRowDelete}
           RowUI={SimpleRow}
           search={search}
           className="bottom-2 w-full table-fixed border-collapse"

@@ -1,21 +1,21 @@
-import { TBody, TBodyProps } from './TBody';
-import { TFooter, TFooterProps } from './TFooter';
-import { THeader, THeaderProps } from './THeader';
+import { TBody, TBodyProps } from "./TBody";
+import { TFooter, TFooterProps } from "./TFooter";
+import { THeader, THeaderProps } from "./THeader";
 
-import { Paper } from '@mantine/core';
-import TPagination from './TPagination';
-import { Table } from '@tanstack/react-table';
-import { TableAccordian } from './table-accordian';
-import { useMediaQuery } from '@mantine/hooks';
+import { Paper } from "@mantine/core";
+import TPagination from "./TPagination";
+import { Table } from "@tanstack/react-table";
+import { TableAccordian } from "./table-accordian";
+import { useMediaQuery } from "@mantine/hooks";
 
 type Id = string | number;
 
 export type TableUIProps<T extends { id: Id }> = {
   table: Table<T>;
   className?: string;
-  bodyStyleClasses?: TBodyProps<T>['bodyStyleClasses'];
-  footerStyleClasses?: TFooterProps<T>['footerStyleClasses'];
-  headerStyleClasses?: THeaderProps<T>['headerStyleClasses'];
+  bodyStyleClasses?: TBodyProps<T>["bodyStyleClasses"];
+  footerStyleClasses?: TFooterProps<T>["footerStyleClasses"];
+  headerStyleClasses?: THeaderProps<T>["headerStyleClasses"];
   footer?: boolean;
   pagination?: boolean;
 };
@@ -43,7 +43,7 @@ export function TableUI<T extends { id: Id }>({
   footer,
   pagination,
 }: TableUIProps<T>) {
-  const largeScreen = useMediaQuery('(min-width: 900px)');
+  const largeScreen = useMediaQuery("(min-width: 900px)");
   // const [shouldSkip, skipAutoResetPageIndex] = useSkipper();
 
   // useEffect(() => {
@@ -51,8 +51,8 @@ export function TableUI<T extends { id: Id }>({
   // }, [table.getState().pagination.pageIndex]);
 
   return largeScreen ? (
-    <Paper shadow={'sm'} radius="md" className="overflow-hidden">
-      <table className={className ?? 'w-full border-collapse overflow-hidden'}>
+    <Paper shadow={"sm"} radius="md" className="overflow-hidden">
+      <table className={className ?? "w-full border-collapse overflow-hidden"}>
         <THeader
           header={table.getHeaderGroups()}
           headerStyleClasses={headerStyleClasses}
@@ -64,9 +64,9 @@ export function TableUI<T extends { id: Id }>({
         {footer && (
           <TFooter
             footerHeader={table.getFooterGroups()}
-            message={`Displaying ${table.getRowModel().rows.length} rows of ${
-              table.options.meta?.getState().data.length
-            } rows`}
+            message={`Displaying ${
+              table.getRowModel().rows.length
+            } rows of rows`}
             footerStyleClasses={footerStyleClasses}
           />
         )}

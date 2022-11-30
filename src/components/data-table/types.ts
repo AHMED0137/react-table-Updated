@@ -1,24 +1,16 @@
-import { RowData } from '@tanstack/react-table';
+import { RowData } from "@tanstack/react-table";
 
-export type Id = string | number;
-export type Status = 'deleted' | 'updated' | 'new';
+type Id = string | number;
 
-declare module '@tanstack/react-table' {
+declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
-    getState: () => TableData<TData>;
-    setState: React.Dispatch<React.SetStateAction<TableData<TData>>>;
     deleteRow: (rowId: Id) => void;
     updateRow: (rowId: Id, row: TData) => void;
+    addRow: (row: TData, rowId: Id) => void;
   }
 }
 
-export type RowState<T extends RowData> = {
-  rowId?: Id;
-  isChanged?: boolean;
-  updatedRow?: T;
-};
+type Status = "initial" | "new" | "changed" | "deleted";
+type WithStatus<T> = T & { status: Status };
 
-export type TableData<TData extends RowData> = {
-  data: Array<TData>;
-  changedRows: Array<RowState<TData>>;
-};
+export type { Id, Status, WithStatus };

@@ -9,11 +9,11 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 
-import { Id } from './types';
-import { rankItem } from '@tanstack/match-sorter-utils';
-import { useMemo } from 'react';
+import { Id } from "./types";
+import { rankItem } from "@tanstack/match-sorter-utils";
+import { useMemo } from "react";
 
 interface TableProps<T extends { id: Id }> {
   data: Array<T>;
@@ -44,7 +44,6 @@ export function useTable<T extends { id: Id }>({
   };
 
   const enablePagination = () => {
-    console.log(pagination);
     return pagination ? { pageSize: 10, pageIndex: 0 } : undefined;
   };
 

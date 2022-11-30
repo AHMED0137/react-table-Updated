@@ -6,32 +6,37 @@ import {
   ColumnDef,
   OnChangeFn,
   RowSelectionState,
-} from '@tanstack/react-table';
-import { Id, RowState, TableData } from './types';
-import React, { useEffect, useState } from 'react';
-import { deleteTableRow, updateTableRow } from './tableUtils';
+} from "@tanstack/react-table";
+import { Id, WithStatus } from "./types";
+import React, { useState } from "react";
+import { deleteTableRow, getTableDataWithStatus } from "./tableUtils";
 
-import { TBodyProps } from './TBody';
-import { TFooterProps } from './TFooter';
-import { THeaderProps } from './THeader';
-import { TableUI } from './TableUI';
-import { useTable } from './useTable';
+import { TBodyProps } from "./TBody";
+import { TFooterProps } from "./TFooter";
+import { THeaderProps } from "./THeader";
+import { TableUI } from "./TableUI";
+import { useTable } from "./useTable";
 
 export type DataTableProps<T extends { id: Id }> = {
   data: Array<T>;
   columns: Array<ColumnDef<T, unknown>>;
+
+  RowUI?: React.JSXElementConstructor<CellContext<T, unknown>>;
+
+  onRowUpdate?: (rows: any) => void;
+  onRowDelete?: (rowId: string | number) => void;
+
+  rowsSelected?: RowSelectionState;
+  onRowsSelected?: OnChangeFn<RowSelectionState>;
+
   search?: string;
   footer?: boolean;
   pagination?: boolean;
-  RowUI?: React.JSXElementConstructor<CellContext<T, unknown>>;
-  onRowUpdate?: (rows: RowState<T>[]) => void;
-  onRowDelete?: (rowId: string | number) => void;
-  rowsSelected?: RowSelectionState;
-  onRowsSelected?: OnChangeFn<RowSelectionState>;
+
   className?: string;
-  bodyStyleClasses?: TBodyProps<T>['bodyStyleClasses'];
-  footerStyleClasses?: TFooterProps<T>['footerStyleClasses'];
-  headerStyleClasses?: THeaderProps<T>['headerStyleClasses'];
+  bodyStyleClasses?: TBodyProps<T>["bodyStyleClasses"];
+  footerStyleClasses?: TFooterProps<T>["footerStyleClasses"];
+  headerStyleClasses?: THeaderProps<T>["headerStyleClasses"];
 };
 
 export function DataTable<T extends { id: Id }>({
@@ -50,43 +55,28 @@ export function DataTable<T extends { id: Id }>({
   rowsSelected,
   onRowsSelected,
 }: DataTableProps<T>) {
-  const [tableData, setTableData] = useState<TableData<T>>({
-    data: initialTableData,
-    changedRows: [],
-  });
+  //
 
-  // update the table internal state when data from outside changes
-  useEffect(() => {
-    setTableData((old) => ({
-      ...old,
-      data: initialTableData,
-    }));
-  }, [initialTableData]);
+  console.log(initialTableData);
 
-  // fire onRowUpdate event when changedRows gets updated.
-  useEffect(() => {
-    if (onRowUpdate) {
-      onRowUpdate(
-        tableData.changedRows.filter((item) => item.isChanged === true)
-      );
-    }
-  }, [tableData]);
+  const [data, setTableData] = useState<Array<WithStatus<T>>>(
+    getTableDataWithStatus(initialTableData)
+  );
 
-  // delete row with a given index
-  const deleteRow = (rowId: Id) => {
-    console.log(rowId);
+  console.log(data);
+
+  // delete row with a given rowId
+  function deleteRow(rowId: Id) {
+    setTableData(deleteTableRow(data, rowId));
     if (onRowDelete) onRowDelete(rowId);
-    setTableData(deleteTableRow(tableData, rowId));
-  };
+  }
 
   // editRow
-  const updateRow = (rowId: Id, row: T) => {
-    setTableData(updateTableRow(tableData, rowId, row));
-  };
+  const updateRow = (rowId: Id, row: T) => {};
 
   const table = useTable({
-    data: tableData.data,
-    columns: columns,
+    data: data.filter((d) => d.status !== "deleted"),
+    columns,
     RowUI,
     pagination,
     search,
@@ -96,8 +86,7 @@ export function DataTable<T extends { id: Id }>({
     meta: {
       deleteRow,
       updateRow,
-      getState: () => tableData,
-      setState: setTableData,
+      addRow: () => {},
     },
   });
 
