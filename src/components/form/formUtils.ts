@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import Joi from 'joi';
+import Joi from "joi";
 
 export const isRequired = (
   path: string | string[],
   schema: Joi.Schema
 ): boolean => {
-  return schema?.extract(path).$_getFlag('presence') === 'required';
+  return schema?.extract(path).$_getFlag("presence") === "required";
 };
 
 export const validateProperty = (value: any, schema: Joi.Schema) => {
@@ -19,5 +19,6 @@ export const isValid = <T, P>(
 ): boolean => {
   return !schema?.validate(value, {
     abortEarly: false,
+    stripUnknown: true,
   }).error;
 };

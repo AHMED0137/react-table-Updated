@@ -6,12 +6,13 @@ import { Paper } from "@mantine/core";
 import TPagination from "./TPagination";
 import { Table } from "@tanstack/react-table";
 import { TableAccordian } from "./table-accordian";
+import { WithStatus } from "./types";
 import { useMediaQuery } from "@mantine/hooks";
 
 type Id = string | number;
 
 export type TableUIProps<T extends { id: Id }> = {
-  table: Table<T>;
+  table: Table<WithStatus<T>>;
   className?: string;
   bodyStyleClasses?: TBodyProps<T>["bodyStyleClasses"];
   footerStyleClasses?: TFooterProps<T>["footerStyleClasses"];
@@ -44,26 +45,15 @@ export function TableUI<T extends { id: Id }>({
   pagination,
 }: TableUIProps<T>) {
   const largeScreen = useMediaQuery("(min-width: 900px)");
-  // const [shouldSkip, skipAutoResetPageIndex] = useSkipper();
-
-  // useEffect(() => {
-  //   skipAutoResetPageIndex();
-  // }, [table.getState().pagination.pageIndex]);
 
   return largeScreen ? (
     <Paper shadow={"sm"} radius="md" className="overflow-hidden">
       <table className={className ?? "w-full border-collapse overflow-hidden"}>
-        <THeader
-          header={table.getHeaderGroups()}
-          headerStyleClasses={headerStyleClasses}
-        />
-        <TBody
-          rows={table.getRowModel().rows}
-          bodyStyleClasses={bodyStyleClasses}
-        />
+        <THeader table={table} headerStyleClasses={headerStyleClasses} />
+        <TBody table={table} bodyStyleClasses={bodyStyleClasses} />
         {footer && (
           <TFooter
-            footerHeader={table.getFooterGroups()}
+            table={table}
             message={`Displaying ${
               table.getRowModel().rows.length
             } rows of rows`}

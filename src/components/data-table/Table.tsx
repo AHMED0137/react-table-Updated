@@ -1,15 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // eslint-disable- react-hooks/exhaustive-deps
-
 import {
   CellContext,
   ColumnDef,
   OnChangeFn,
   RowSelectionState,
+  Table,
 } from "@tanstack/react-table";
 import { Id, WithStatus } from "./types";
 import React, { useState } from "react";
-import { deleteTableRow, getTableDataWithStatus } from "./tableUtils";
+import {
+  addTableRow,
+  copyTableRow,
+  deleteTableRow,
+  editTableRow,
+  getTableDataWithStatus,
+} from "./tableUtils";
 
 import { TBodyProps } from "./TBody";
 import { TFooterProps } from "./TFooter";
@@ -39,7 +45,7 @@ export type DataTableProps<T extends { id: Id }> = {
   headerStyleClasses?: THeaderProps<T>["headerStyleClasses"];
 };
 
-export function DataTable<T extends { id: Id }>({
+export function useDataTable<T extends { id: Id }>({
   data: initialTableData,
   columns,
   search,
@@ -54,16 +60,12 @@ export function DataTable<T extends { id: Id }>({
   footerStyleClasses,
   rowsSelected,
   onRowsSelected,
-}: DataTableProps<T>) {
+}: DataTableProps<T>): [Table<WithStatus<T>>, () => JSX.Element] {
   //
-
-  console.log(initialTableData);
 
   const [data, setTableData] = useState<Array<WithStatus<T>>>(
     getTableDataWithStatus(initialTableData)
   );
-
-  console.log(data);
 
   // delete row with a given rowId
   function deleteRow(rowId: Id) {
@@ -71,10 +73,28 @@ export function DataTable<T extends { id: Id }>({
     if (onRowDelete) onRowDelete(rowId);
   }
 
-  // editRow
-  const updateRow = (rowId: Id, row: T) => {};
+  function addRow(row: T) {
+    setTableData(addTableRow(data, row));
+    if (onRowUpdate) onRowUpdate(row);
+  }
 
-  const table = useTable({
+  function copyRow(rowId: Id) {
+    setTableData(copyTableRow(data, rowId));
+  }
+
+  function editRow(row: T) {
+    setTableData(editTableRow(data, row));
+  }
+
+  function resetTable() {
+    setTableData(getTableDataWithStatus(initialTableData));
+  }
+
+  function getTableChanges() {
+    return data.filter((row) => row.status !== "initial");
+  }
+
+  const table = useTable<WithStatus<T>>({
     data: data.filter((d) => d.status !== "deleted"),
     columns,
     RowUI,
@@ -82,25 +102,33 @@ export function DataTable<T extends { id: Id }>({
     search,
     onRowsSelected,
     rowsSelected,
-
     meta: {
       deleteRow,
-      updateRow,
-      addRow: () => {},
+      editRow,
+      addRow,
+      copyRow,
+      resetTable,
+      getTableChanges,
     },
   });
 
-  return (
-    <TableUI
-      table={table}
-      pagination={pagination}
-      footer={footer}
-      headerStyleClasses={headerStyleClasses}
-      bodyStyleClasses={bodyStyleClasses}
-      footerStyleClasses={footerStyleClasses}
-      className={className}
-    />
-  );
+  console.log(data);
+
+  const render = () => {
+    return (
+      <TableUI
+        table={table}
+        pagination={pagination}
+        footer={footer}
+        headerStyleClasses={headerStyleClasses}
+        bodyStyleClasses={bodyStyleClasses}
+        footerStyleClasses={footerStyleClasses}
+        className={className}
+      />
+    );
+  };
+
+  return [table, render];
 }
 
-export default DataTable;
+export default useDataTable;

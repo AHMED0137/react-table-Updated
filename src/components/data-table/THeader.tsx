@@ -1,23 +1,22 @@
-import { HeaderGroup, flexRender } from '@tanstack/react-table';
-
-import { Id } from './types';
+import { Id, WithStatus } from "./types";
+import { Table, flexRender } from "@tanstack/react-table";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface THeaderProps<TData extends { id: string | number }> {
-  header: HeaderGroup<TData>[];
+  table: Table<WithStatus<TData>>;
   headerStyleClasses?: {
-    trClassName?: React.HtmlHTMLAttributes<'tr'>['className'];
-    thClassName?: React.HtmlHTMLAttributes<'th'>['className'];
+    trClassName?: React.HtmlHTMLAttributes<"tr">["className"];
+    thClassName?: React.HtmlHTMLAttributes<"th">["className"];
   };
 }
 
 export function THeader<TData extends { id: Id }>({
-  header,
+  table,
   headerStyleClasses,
 }: THeaderProps<TData>) {
   const { trClassName, thClassName } = headerStyleClasses || {};
-
+  const header = table.getHeaderGroups();
   return (
     <thead>
       {header.map((headerGroup) => (
@@ -28,7 +27,7 @@ export function THeader<TData extends { id: Id }>({
               className={thClassName}
               key={header.id}
               colSpan={header.colSpan}
-              style={{ position: 'relative', width: `${header.getSize()}%` }}
+              style={{ position: "relative", width: `${header.getSize()}%` }}
             >
               {header.isPlaceholder
                 ? null

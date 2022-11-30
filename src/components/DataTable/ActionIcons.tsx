@@ -3,7 +3,7 @@ import { Copy, Edit, Trash } from "tabler-icons-react";
 
 import { Id } from "../data-table";
 
-export type Action = "delete" | "edit" | "copy";
+export type Action = "delete" | "edit" | "copy" | "new";
 
 type ActionIconsProps = {
   onClick: (rowId: Id, action: Action) => void;

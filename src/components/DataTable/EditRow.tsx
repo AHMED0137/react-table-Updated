@@ -1,15 +1,31 @@
 import { Center, Paper, Title, createStyles } from "@mantine/core";
 
+import { Action } from "./ActionIcons";
 import { CellContext } from "@tanstack/react-table";
 import { Form } from "../form";
 import Joi from "joi";
 import { MyModal } from "../../HOC/Modal";
 import { User } from "./DataTable2";
 
-const RowForm = ({ table, row }: CellContext<User, unknown>) => {
-  let initialValues = row.original;
+interface RowFormProps extends CellContext<User, unknown> {
+  action: Action;
+  onClose: () => void;
+}
+
+const RowForm = ({ table, row, action, onClose }: Partial<RowFormProps>) => {
+  let initialValues = row?.original || {
+    id: Date.now(),
+    nso: "",
+    notes: "",
+    description: "",
+    otherSources: "",
+    otp: "",
+    sportsCanada: "",
+    total: "",
+  };
+
   const schema = Joi.object<User>({
-    id: Joi.number(),
+    id: Joi.any(),
     nso: Joi.string().required(),
     notes: Joi.string().required(),
     description: Joi.string().required(),
@@ -22,19 +38,23 @@ const RowForm = ({ table, row }: CellContext<User, unknown>) => {
   const { classes } = useStyles();
 
   function handleFormSubmit(formValues: User) {
-    console.log(formValues);
-    initialValues = formValues;
+    if (action === "new") {
+      table?.options.meta?.addRow(formValues);
+    } else if (action === "edit") {
+      table?.options.meta?.editRow(formValues);
+    }
+    onClose!();
   }
 
   return (
     <Paper className={classes.paper}>
       <Center>
-        <Title order={3}>Edit Row</Title>
+        <Title order={3}>{action}</Title>
       </Center>
 
       <Form
         className={classes.form}
-        initialValues={initialValues}
+        initialValues={initialValues!}
         onFormSubmit={handleFormSubmit}
         schema={schema}
       >

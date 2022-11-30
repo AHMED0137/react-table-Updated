@@ -65,7 +65,9 @@ export const getColumns = () => {
     },
     {
       header: "Action",
-      size: 20,
+      minSize: 12,
+      size: 5,
+      maxSize: 20,
     },
   ];
 

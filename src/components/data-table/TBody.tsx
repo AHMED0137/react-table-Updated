@@ -1,12 +1,9 @@
-import { Row, flexRender } from "@tanstack/react-table";
-
-import { Button } from "@mantine/core";
-import { Id } from "./types";
-import { Plus } from "tabler-icons-react";
+import { Id, WithStatus } from "./types";
+import { Table, flexRender } from "@tanstack/react-table";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface TBodyProps<TData extends { id: Id }> {
-  rows: Row<TData>[];
+  table: Table<WithStatus<TData>>;
   bodyStyleClasses?: {
     trClassName?: React.HtmlHTMLAttributes<"tr">["className"];
     tdClassName?: React.HtmlHTMLAttributes<"td">["className"];
@@ -14,27 +11,22 @@ export interface TBodyProps<TData extends { id: Id }> {
 }
 
 export function TBody<TData extends { id: Id }>({
-  rows,
+  table,
   bodyStyleClasses,
 }: TBodyProps<TData>) {
   const { tdClassName, trClassName } = bodyStyleClasses || {};
-
+  const rows = table.getRowModel().rows;
+  console.log(rows);
   return (
     <tbody>
-      <tr>
-        <td colSpan={rows[0].getAllCells().length} className="bg-slate-50">
-          <div className="mt-2 mb-2 flex w-full flex-row justify-end bg-slate-100 p-2">
-            <Button leftIcon={<Plus />} size="xs">
-              New
-            </Button>
-          </div>
-        </td>
-      </tr>
       {rows.map((row) => (
         <tr
           key={row.id}
           className={
-            trClassName ??
+            trClassName +
+              (row.original.status !== "initial"
+                ? " bg-orange-100 even:bg-orange-100"
+                : "") ??
             "border-0 border-b-2 border-solid border-slate-200 even:bg-slate-100"
           }
         >
