@@ -1,8 +1,8 @@
 import { Accordion as MAccordion, Text } from '@mantine/core';
 
-import { Id } from './types';
-import { TableUIProps } from './TableUI';
 import { flexRender } from '@tanstack/react-table';
+import { TableUIProps } from './TableUI';
+import { Id } from './types';
 
 export function TableAccordian<T extends { id: Id }>({
   table,

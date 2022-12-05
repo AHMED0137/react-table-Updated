@@ -1,5 +1,6 @@
 import { Id, Status, WithStatus } from "./types";
 
+// return table with status of each row
 export function getTableDataWithStatus<T>(
   data: Array<T>
 ): Array<WithStatus<T>> {
@@ -9,21 +10,20 @@ export function getTableDataWithStatus<T>(
   }));
 }
 
+// adding status with row
 function addStatus<T extends { id: Id }>(row: T, status: Status) {
   return { ...row, status };
 }
 
+// delete table selected row
 export function deleteTableRow<T extends { id: Id }>(
   data: Array<WithStatus<T>>,
   rowId: Id
 ) {
   const ndata = [...data];
-
   const rowIndex = data.findIndex((r) => r.id === rowId);
-
   // no change
   if (rowIndex === -1) return data;
-
   const row = ndata[rowIndex];
 
   //if the row was newly added but now being delete therefore remove it from the data
@@ -43,6 +43,7 @@ export function deleteTableRow<T extends { id: Id }>(
   return newData;
 }
 
+// add new row in table 
 export function addTableRow<T extends { id: Id }>(
   data: Array<WithStatus<T>>,
   row: T
@@ -53,6 +54,7 @@ export function addTableRow<T extends { id: Id }>(
   return ndata;
 }
 
+// copy table row
 export function copyTableRow<T extends { id: Id }>(
   data: Array<WithStatus<T>>,
   rowId: Id
@@ -66,6 +68,7 @@ export function copyTableRow<T extends { id: Id }>(
   return newData;
 }
 
+// edit table row
 export function editTableRow<T extends { id: Id }>(
   data: Array<WithStatus<T>>,
   row: T

@@ -1,12 +1,9 @@
 import {
-  NumberInput,
+  createStyles, NumberInput,
   PasswordInput,
-  PasswordInputProps,
-  TextInput,
-  TextInputProps,
-  Textarea,
-  TextareaProps,
-  createStyles,
+  PasswordInputProps, Textarea,
+  TextareaProps, TextInput,
+  TextInputProps
 } from "@mantine/core";
 
 import { NumberProps } from "./NumberInput";
@@ -22,11 +19,20 @@ export type InputProps = _InputProps & {
   width?: number | string;
 };
 
-export const Input = ({ value, type, width, ...rest }: InputProps) => {
+export const Input = ({ value, placeholder, type, width, ...rest }: InputProps) => {
   const { classes } = useStyles({ width });
   const Component = getComponent(type || "text") as React.FC<InputProps>;
-  return <Component classNames={classes} radius="xl" size="sm" {...rest} />;
+  return <Component       
+  classNames={classes} 
+  radius="xl" 
+  size="sm" 
+  placeholder={placeholder}
+  {...rest} />;
 };
+
+
+// Component=== Textarea ? <Component classNames={classes} radius="xl" size="sm" maxRows={3}
+//  {...rest} /> : <Component classNames={classes} radius="xl" size="sm" {...rest} />;
 
 function getComponent(type: InputProps["type"]) {
   switch (type) {

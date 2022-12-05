@@ -6,7 +6,11 @@ export interface NumberProps extends NumberInputProps {
 
 export const Number = ({ value, width, ...rest }: NumberProps) => {
   const { classes } = useStyles({ width });
-  return <NumberInput classNames={classes} radius="xl" required size="md" {...rest} />;
+  return <NumberInput     
+    classNames={classes} 
+    radius="xl" 
+    required size="md" 
+    {...rest} />;
 };
 
 export default Number;

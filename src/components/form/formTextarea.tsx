@@ -1,35 +1,31 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { InputProps, TextInput } from "@mantine/core";
-
+import { TextareaProps } from "@mantine/core";
+import TextareaInput from "../input/Textarea";
 import { useFormContext } from "./formProvider";
 import { isRequired } from "./formUtils";
 
-type FormFieldProps = InputProps & {
+type FormTextareaProps =  TextareaProps & {
   value?: string;
   label?: string;
   name: string;
   icon?: React.ReactNode;
-  description?: string;
   placeholder?:string;
-  type: string;
+  minRows?:number;
+  maxRows?:number;
 };
 
-export const FormField = ({
+export const FormTextBox = ({
   label,
-  type,
   name,
   placeholder,
-  description,
   icon,
   ...rest
-}: FormFieldProps) => {
+}: FormTextareaProps) => {
   const { form, schema } = useFormContext();  
-  // Icon123  IconAb   AlphabetLatin
-  // const icons= type==="number" ? (<IconCurrencyDollar  size={18}/>) : (<TextRecognition size={18}/>)
+ 
   return (
-    <TextInput
+    <TextareaInput
        icon={icon}
-      description={description}
       error={form?.errors[name]}
       errorProps={{
         style: {
@@ -43,14 +39,8 @@ export const FormField = ({
       required={isRequired(name, schema!)}
       {...form?.getInputProps(name)}
       placeholder={placeholder}
-      type={type}
       {...rest}
     />
   );
-
-  function newFunction() {
-    console.log("type", type);
-  }
-};
-
-export default FormField;
+}
+export default FormTextBox;

@@ -1,23 +1,37 @@
 import { Button, Input, Text } from "@mantine/core";
-import { IconRefresh, IconSearch, IconTextPlus } from "@tabler/icons";
+import { IconPlus, IconRefresh, IconSearch } from "@tabler/icons";
 import React, { useState } from "react";
-
+import { useDataTable } from "../data-table";
 import { RowFormWithDrawer } from "./EditRow";
 import { SimpleRow } from "./SimpleRow";
 import { getColumns } from "./TableSchema";
-import { useDataTable } from "../data-table";
 
 /* eslint-disable react-hooks/exhaustive-deps */
 
 export type User = {
   id: number | string;
-  description: string;
-  notes: string;
-  otp: string;
-  sportsCanada: string;
-  nso: string;
-  otherSources: string;
-  total: string;
+  program_description?: string; //drop down
+  sport_discipline_id:string,
+  comments: string,
+
+  first_name: string; // drop down
+  last_name: string; // drop down
+  name: string; // full name
+  email: string; //  automatically
+  position: string; // automatically
+
+  psri_service: string;
+  time_request: string;
+  time_request_days: string;
+
+  funding_otp: string;
+  funding_sportsCanada: string;
+  funding_nso: string;
+  funding_other: string;
+  funding_total: string; // calculate
+
+  percent_aloc_senior: number; // 0 - 100
+  percent_next_gen: number; // 0 - 100
 };
 
 interface TableProps {
@@ -70,7 +84,7 @@ export function Table({ tableData }: TableProps) {
           }
         />
         <Button
-          leftIcon={<IconTextPlus size={14} stroke={6} />}
+          leftIcon={<IconPlus  size={14} stroke={6} />}
           size="xs"
           onClick={() => setOpen(true)}
           color="orange"
@@ -80,6 +94,7 @@ export function Table({ tableData }: TableProps) {
         <RowFormWithDrawer
           table={table}
           opened={open}
+          size="60%"
           action="new"
           onClose={() => setOpen(false)}
         />

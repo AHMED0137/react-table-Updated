@@ -3,11 +3,11 @@ import { TFooter, TFooterProps } from "./TFooter";
 import { THeader, THeaderProps } from "./THeader";
 
 import { Paper } from "@mantine/core";
-import TPagination from "./TPagination";
-import { Table } from "@tanstack/react-table";
-import { TableAccordian } from "./table-accordian";
-import { WithStatus } from "./types";
 import { useMediaQuery } from "@mantine/hooks";
+import { Table } from "@tanstack/react-table";
+import { TableCard } from "./Card";
+import TPagination from "./TPagination";
+import { WithStatus } from "./types";
 
 type Id = string | number;
 
@@ -54,9 +54,7 @@ export function TableUI<T extends { id: Id }>({
         {footer && (
           <TFooter
             table={table}
-            message={`Displaying ${
-              table.getRowModel().rows.length
-            } rows of rows`}
+            message=""
             footerStyleClasses={footerStyleClasses}
           />
         )}
@@ -72,6 +70,6 @@ export function TableUI<T extends { id: Id }>({
       )}
     </Paper>
   ) : (
-    <TableAccordian table={table} />
+    <TableCard table={table} />
   );
 }

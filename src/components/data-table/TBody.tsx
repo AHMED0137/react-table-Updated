@@ -1,5 +1,5 @@
+import { flexRender, Table } from "@tanstack/react-table";
 import { Id, WithStatus } from "./types";
-import { Table, flexRender } from "@tanstack/react-table";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface TBodyProps<TData extends { id: Id }> {
@@ -16,7 +16,7 @@ export function TBody<TData extends { id: Id }>({
 }: TBodyProps<TData>) {
   const { tdClassName, trClassName } = bodyStyleClasses || {};
   const rows = table.getRowModel().rows;
-  console.log(rows);
+  // console.log(rows);
   return (
     <tbody>
       {rows.map((row) => (

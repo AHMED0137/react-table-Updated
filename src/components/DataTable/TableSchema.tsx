@@ -21,44 +21,52 @@ export const getColumns = () => {
       maxSize: 5,
     },
     {
-      accessorKey: "description",
+      accessorKey: "program_description",
       header: "Descriptions",
-      footer: () => null,
-      maxSize: 15,
+      footer: ({table}) => {
+        table.getColumn("program_description")
+      }
+      // {
+      //   const total= React.useMemo(
+            
+      //   )
+      // }
+      ,
+      maxSize: 30,
     },
     {
-      accessorKey: "notes",
-      header: "Notes",
+      accessorKey: "comments",
+      header: "Comments",
       footer: () => null,
-      maxSize: 15,
+      maxSize: 35,
     },
     {
-      accessorKey: "otp",
+      accessorKey: "funding_otp",
       header: "OTP",
       footer: () => null,
-      maxSize: 10,
+      maxSize: 15,
     },
     {
-      accessorKey: "sportsCanada",
+      accessorKey: "funding_sportsCanada",
       header: "Sports Canada",
       footer: () => null,
       size: 5,
     },
     {
-      accessorKey: "nso",
+      accessorKey: "funding_nso",
       header: "NSO",
       footer: () => null,
       size: 5,
     },
     {
-      accessorKey: "otherSources",
+      accessorKey: "funding_other",
       header: "Other",
       footer: () => null,
       size: 5,
     },
 
     {
-      accessorKey: "total",
+      accessorKey: "funding_total",
       header: "total",
       footer: () => null,
       size: 5,

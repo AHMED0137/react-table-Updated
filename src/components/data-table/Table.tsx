@@ -5,22 +5,22 @@ import {
   ColumnDef,
   OnChangeFn,
   RowSelectionState,
-  Table,
+  Table
 } from "@tanstack/react-table";
-import { Id, WithStatus } from "./types";
 import React, { useState } from "react";
 import {
   addTableRow,
   copyTableRow,
   deleteTableRow,
   editTableRow,
-  getTableDataWithStatus,
+  getTableDataWithStatus
 } from "./tableUtils";
+import { Id, WithStatus } from "./types";
 
+import { TableUI } from "./TableUI";
 import { TBodyProps } from "./TBody";
 import { TFooterProps } from "./TFooter";
 import { THeaderProps } from "./THeader";
-import { TableUI } from "./TableUI";
 import { useTable } from "./useTable";
 
 export type DataTableProps<T extends { id: Id }> = {
@@ -50,7 +50,7 @@ export function useDataTable<T extends { id: Id }>({
   columns,
   search,
   className,
-  footer = false,
+  footer = true,
   pagination = false,
   RowUI,
   onRowUpdate,
@@ -112,7 +112,7 @@ export function useDataTable<T extends { id: Id }>({
     },
   });
 
-  console.log(data);
+  // console.log(data);
 
   const render = () => {
     return (

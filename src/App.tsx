@@ -25,22 +25,52 @@ const FormData=[
       active: true,
       tableData:[{
        id: 1,
-      description: "Training(2026)",
-      notes: "This is required for training camps 2026",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
+      program_description: "Training(2026)",
+      sport_discipline_id:"ahmad",
+      comments: "This is required for training camps 2026",
+ 
+      first_name: "Ahmad", // drop down
+      last_name: "Iftikhar",// drop down
+      name: "Ahmad Iftikhar",// full name
+      email: "ahmadiftikhar@gmail.com", //  automatically
+      position: "SE", // automatically
+
+      psri_service: "tech",
+      time_request: "foundry",
+      time_request_days: "2022",
+
+      funding_otp: "40000",
+      funding_sportsCanada: "23000",
+      funding_nso: "45000",
+      funding_other: "60000",
+      funding_total: "100000",
+      
+      percent_aloc_senior: 100, // 0 - 100
+      percent_next_gen: 100,
     },{
        id: 2,
-      description: "Training(2024)",
-      notes: "This is required for training camps 2024",
-      otp: "40000",
-      sportsCanada: "23000",
-      nso: "45000",
-      otherSources: "60000",
-      total: "100000",
+      program_description: "Training(2024)",
+      sport_discipline_id:"ahmad",
+      comments: "This is required for training camps 2024",
+
+      first_name: "Ahmad", // drop down
+      last_name: "Iftikhar",// drop down
+      name: "Ahmad Iftikhar",// full name
+      email: "ahmadiftikhar@gmail.com", //  automatically
+      position: "SE", // automatically
+
+      psri_service: "tech",
+      time_request: "foundry",
+      time_request_days: "2022",
+
+      funding_otp: "40000",
+      funding_sportsCanada: "23000",
+      funding_nso: "45000",
+      funding_other: "60000",
+      funding_total: "100000",
+      
+      percent_aloc_senior: 100, // 0 - 100
+      percent_next_gen: 100,
     }
   ]
     }
@@ -75,7 +105,7 @@ function App() {
   function getAItems(): Array<AItem>{
     const getitem=FormData.map((item) => {
       const label=item?.programSubTitle?.split(' ')?.at(0) || " ";
-      console.log(label);
+      // console.log(label);
     return {
      id:item.id,
      title:item.programSubTitle,

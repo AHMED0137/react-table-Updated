@@ -15,7 +15,7 @@ export function MyModal<T extends Object>(
   }: T & ModalProps) {
     return (
       <>
-        <Modal centered opened={opened} onClose={onClose} title={title}>
+        <Modal centered opened={opened} onClose={onClose} title={title} size={size || "auto"}>
           <Component {...(rest as T & ModalProps)} onClose={onClose} />
         </Modal>
       </>
