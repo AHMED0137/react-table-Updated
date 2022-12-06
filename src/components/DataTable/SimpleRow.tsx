@@ -1,10 +1,10 @@
-import { Action, ActionIcons } from "./ActionIcons";
 import { useEffect, useState } from "react";
+import { Action, ActionIcons } from "./ActionIcons";
 
 import { CellContext } from "@tanstack/react-table";
 import { Id } from "../data-table";
-import { RowFormWithDrawer } from "./EditRow";
 import { User } from "./DataTable2";
+import { RowFormWithDrawer } from "./EditRow";
 
 export function SimpleRow(props: CellContext<User, unknown>) {
   const { getValue, table, row, cell } = props;
@@ -38,6 +38,7 @@ export function SimpleRow(props: CellContext<User, unknown>) {
             {...props}
             opened={open}
             action={action}
+            size="60%"
             onClose={() => setOpen(false)}
           />
         </div>

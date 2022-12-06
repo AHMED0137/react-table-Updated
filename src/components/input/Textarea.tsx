@@ -8,7 +8,7 @@ export type Textareaprops = TextareaProps & {
 };
 
 
-function TextareaInput({ value, placeholder,minRows, maxRows,label,width, ...rest }: Textareaprops) {
+function TextareaInput({ value, placeholder,minRows, maxRows,name,label,width, ...rest }: Textareaprops) {
   return (
     <>
       <Textarea
@@ -17,6 +17,7 @@ function TextareaInput({ value, placeholder,minRows, maxRows,label,width, ...res
         autosize
         minRows={minRows}
         maxRows={maxRows}
+        value={value}
        {...rest}
       />
     </>

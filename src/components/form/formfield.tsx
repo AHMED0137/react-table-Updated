@@ -24,8 +24,7 @@ export const FormField = ({
   ...rest
 }: FormFieldProps) => {
   const { form, schema } = useFormContext();  
-  // Icon123  IconAb   AlphabetLatin
-  // const icons= type==="number" ? (<IconCurrencyDollar  size={18}/>) : (<TextRecognition size={18}/>)
+
   return (
     <TextInput
        icon={icon}

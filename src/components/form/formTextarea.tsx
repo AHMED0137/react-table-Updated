@@ -15,6 +15,7 @@ type FormTextareaProps =  TextareaProps & {
 };
 
 export const FormTextBox = ({
+  value,
   label,
   name,
   placeholder,
