@@ -18,7 +18,15 @@ export function TableCard<T extends { id: Id }>({
       {table.getRowModel().rows.map((row) => (
         <Paper shadow={'lg'} pt={0} pl={0} pr={0} m={0}>
           <div key={row.original.id} className="grid">
-          <div className="flex flex-row w-full bg-slate-100 p-4">{row.original.id}</div>
+            <div className="flex flex-row w-full bg-slate-100 p-4 space-x-[25%]">
+           {row.getVisibleCells().map((cell, index) => {
+            if(cell.column.columnDef.header==='Descriptions' || cell.column.columnDef.header==='total' || cell.column.columnDef.header==='Action'){
+             return<>  
+              <div>{flexRender(cell.column.columnDef.cell, cell.getContext())}</div>
+              </>
+            }
+          })}
+          </div>  
             <div key={row.original.id} className="grid grid-cols-4">
             {row.getVisibleCells().map((cell, index) => (
               <>

@@ -65,22 +65,24 @@ const RowForm = ({ table, row, action, onClose}: Partial<RowFormProps>) => {
 
     percent_aloc_senior: Joi.number().min(0).max(100).message('You can enter between 0 and 100'),
     percent_next_gen: Joi.number().min(0).max(100).message('You can enter between 0 and 100'),
-
-  });
+    // .custom((value,msg)=>{
+    //   if(value + Joi.ref('percent_aloc_senior')<=100)
+    //   {
+    //      return true;
+    //   }
+    //   else{
+    //     // return msg.message('not allowd');
+    //   }
+    // }),
+  })
+  // .xor('percent_aloc_senior' + 'percent_next_gen' <=100 )
 
 
 
 // temp data
 const mydata=["ahmad","ali","zohaib","Training(2026)","Training(2024)"];
-// let fullname:string | " ";
       const { form } = useFormContext();  
-
   function handleFormSubmit(formValues: User) {
-      // if(formValues.first_name && formValues.last_name)
-      //   {
-      //     fullname= formValues.first_name + formValues.last_name;
-      //     console.log(fullname);
-      //   }
     if (action === "new") {
       table?.options.meta?.addRow(formValues);
     } else if (action === "edit") {
@@ -90,14 +92,7 @@ const mydata=["ahmad","ali","zohaib","Training(2026)","Training(2024)"];
   }
   const person_required=true;
   console.log("initialValues",initialValues);
-      // const handle=()=>{
-      // if(formValues.first_name && formValues.last_name)
-      //   {
-      //     fullname= formValues.first_name + formValues.last_name;
-      //     console.log(name)
-      //   }
-      // }
-
+    
   return (
     <Paper className="px-10">
       <Center>

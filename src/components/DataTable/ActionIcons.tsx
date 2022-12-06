@@ -17,13 +17,13 @@ export function ActionIcons({ onClick, rowId }: ActionIconsProps) {
   return (
     <Group>
       <ActionIcon onClick={() => handleClick("edit")}>
-        <Edit size={18} />
+        <Edit size={18} color="skyblue"/>
       </ActionIcon>
       <ActionIcon>
-        <Copy size={18} onClick={() => handleClick("copy")} />
+        <Copy size={18} color="orange" onClick={() => handleClick("copy")} />
       </ActionIcon>
       <ActionIcon>
-        <Trash size={18} onClick={() => handleClick("delete")} />
+        <Trash size={18} color="red" onClick={() => handleClick("delete")} />
       </ActionIcon>
     </Group>
   );
