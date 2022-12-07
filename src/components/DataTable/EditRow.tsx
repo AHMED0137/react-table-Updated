@@ -5,7 +5,7 @@ import Joi from "joi";
 import { ListSearch, Mail, Percentage, TextRecognition, Writing } from "tabler-icons-react";
 import { MyModal } from "../../HOC/Modal";
 import { Only } from "../data-table/Only";
-import { Form, useFormContext } from "../form";
+import { Form } from "../form";
 import { Action } from "./ActionIcons";
 import { User } from "./DataTable2";
 
@@ -29,18 +29,18 @@ const RowForm = ({ table, row, action, onClose}: Partial<RowFormProps>) => {
 
     psri_service: "",
     time_request: "",
-    time_request_days: "",
+    time_request_days: 0,
 
-    funding_otp: "",
-    funding_sportsCanada: "",
-    funding_nso: "",
-    funding_other: "",
-    funding_total: "",
+    funding_otp: 0,
+    funding_sportsCanada: 0,
+    funding_nso: 0,
+    funding_other: 0,
+    funding_total: 0,
 
     percent_aloc_senior: 0, // 0 - 100
     percent_next_gen: 0,
   };
-
+  const percentage= initialValues.percent_aloc_senior+initialValues.percent_next_gen;
   const schema = Joi.object<User>({
     id: Joi.any(),
     program_description: Joi.string().required(),
@@ -55,33 +55,25 @@ const RowForm = ({ table, row, action, onClose}: Partial<RowFormProps>) => {
 
     psri_service: Joi.string(),
     time_request: Joi.string(),
-    time_request_days: Joi.string(),
+    time_request_days: Joi.number(),
 
-    funding_otp: Joi.string().required(),
-    funding_sportsCanada: Joi.string().required(),
-    funding_nso: Joi.string().required(),
-    funding_other: Joi.string().required(),
-    funding_total: Joi.string().required(),
+    funding_otp: Joi.number().required(),
+    funding_sportsCanada: Joi.number().required(),
+    funding_nso: Joi.number().required(),
+    funding_other: Joi.number().required(),
+    funding_total: Joi.number().required(),
 
     percent_aloc_senior: Joi.number().min(0).max(100).message('You can enter between 0 and 100'),
     percent_next_gen: Joi.number().min(0).max(100).message('You can enter between 0 and 100'),
-    // .custom((value,msg)=>{
-    //   if(value + Joi.ref('percent_aloc_senior')<=100)
-    //   {
-    //      return true;
-    //   }
-    //   else{
-    //     // return msg.message('not allowd');
-    //   }
-    // }),
   })
+
   // .xor('percent_aloc_senior' + 'percent_next_gen' <=100 )
 
 
 
 // temp data
 const mydata=["ahmad","ali","zohaib","Training(2026)","Training(2024)"];
-      const { form } = useFormContext();  
+      // const { form } = useFormContext();  
   function handleFormSubmit(formValues: User) {
     if (action === "new") {
       table?.options.meta?.addRow(formValues);
@@ -92,7 +84,7 @@ const mydata=["ahmad","ali","zohaib","Training(2026)","Training(2024)"];
   }
   const person_required=true;
   console.log("initialValues",initialValues);
-    
+    // const handle=()=>{ }
   return (
     <Paper className="px-10">
       <Center>
@@ -158,6 +150,9 @@ const mydata=["ahmad","ali","zohaib","Training(2026)","Training(2024)"];
           name={"funding_sportsCanada"}
           label="Sports Canada"
           type="number"
+          onChange={(value)=>{
+            console.log(typeof(value));
+          }}
           icon={<IconCurrencyDollar  size={18}/>}
         /></Grid.Col>
        <Grid.Col xs={12} sm={4} md={4} lg={4}><Form.FormField name={"funding_nso"} label="NSO" type="number" icon={<IconCurrencyDollar  size={18}/>} /></Grid.Col>
@@ -167,7 +162,7 @@ const mydata=["ahmad","ali","zohaib","Training(2026)","Training(2024)"];
           type="number"
           icon={<IconCurrencyDollar  size={18}/>}
         /></Grid.Col>
-       <Grid.Col xs={12} sm={6} md={6} lg={6}> <Form.FormField name={"funding_total"} label="Grand Total" type="number" icon={<IconCurrencyDollar  size={18}/>}/></Grid.Col>
+       <Grid.Col xs={12} sm={6} md={6} lg={6}> <Form.FormField name={"funding_total"} label="Grand Total" type="number" disabled icon={<IconCurrencyDollar  size={18}/>}/></Grid.Col>
         </Grid>
        </fieldset>
        <fieldset className="w-full my-2 rounded border-solid	border-gray-300 p-6">

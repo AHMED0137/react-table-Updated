@@ -5,6 +5,7 @@ import "./App.css";
 import { AItem, MainAccordian } from "./components/acordian/acordian";
 import { ProgramAcordian, ProgramItem } from "./components/acordian/ProgramAcordian";
 import { Table } from "./components/DataTable/DataTable2";
+import { NumberFormet } from "./components/DataTable/NumberFormet";
 
 // designed data
 const FormData=[
@@ -37,13 +38,13 @@ const FormData=[
 
       psri_service: "tech",
       time_request: "foundry",
-      time_request_days: "2022",
+      time_request_days: 2022,
 
-      funding_otp: "40000",
-      funding_sportsCanada: "23000",
-      funding_nso: "45000",
-      funding_other: "60000",
-      funding_total: "100000",
+      funding_otp: 40000,
+      funding_sportsCanada: 23000,
+      funding_nso: 45000,
+      funding_other: 60000,
+      funding_total: 300000,
       
       percent_aloc_senior: 100, // 0 - 100
       percent_next_gen: 100,
@@ -61,13 +62,13 @@ const FormData=[
 
       psri_service: "tech",
       time_request: "foundry",
-      time_request_days: "2022",
+      time_request_days: 2022,
 
-      funding_otp: "40000",
-      funding_sportsCanada: "23000",
-      funding_nso: "45000",
-      funding_other: "60000",
-      funding_total: "100000",
+      funding_otp: 40000,
+      funding_sportsCanada: 23000,
+      funding_nso: 45000,
+      funding_other: 60000,
+      funding_total: 100000,
       
       percent_aloc_senior: 100, // 0 - 100
       percent_next_gen: 100,
@@ -79,17 +80,19 @@ const FormData=[
 ]
 function App() { 
   const [activeBlock, setActiveBlock] = useState<Array<string>>([]);
-
   // Function that returns inner accordian table Data
   function getTable (): Array<ProgramItem>{
     const [getFormAcordianData]=FormData?.map((item)=>{
     const FormAcordian=item?.program?.map((value)=>{
       const TableData=value?.tableData?.map((data)=>data)
+      // calculating total sum
+      let sum=0;
+      const total=TableData.map((item)=>sum+=Number(item.funding_total))
         return {
           id:value?.id,
           label:value?.prgramTitle,
           active:value?.active,
-          message:value?.link,
+          message:NumberFormet(sum),
           panel:(
               <div className="flex-1">
               <Table tableData={TableData}/>

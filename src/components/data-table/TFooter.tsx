@@ -1,5 +1,5 @@
+import { flexRender, Table } from "@tanstack/react-table";
 import { Id, WithStatus } from "./types";
-import { Table, flexRender } from "@tanstack/react-table";
 
 import React from "react";
 /* eslint-disable @typescript-eslint/no-explicit-any */

@@ -7,7 +7,6 @@ import { SimpleRow } from "./SimpleRow";
 import { getColumns } from "./TableSchema";
 
 /* eslint-disable react-hooks/exhaustive-deps */
-
 export type User = {
   id: number | string;
   program_description?: string; //drop down
@@ -22,22 +21,24 @@ export type User = {
 
   psri_service: string;
   time_request: string;
-  time_request_days: string;
+  time_request_days: number;
 
-  funding_otp: string;
-  funding_sportsCanada: string;
-  funding_nso: string;
-  funding_other: string;
-  funding_total: string; // calculate
+  funding_otp: number;
+  funding_sportsCanada: number;
+  funding_nso: number;
+  funding_other: number;
+  funding_total: number; // calculate
 
   percent_aloc_senior: number; // 0 - 100
   percent_next_gen: number; // 0 - 100
+  // percentage?:number;
 };
 
 interface TableProps {
   tableData: Array<User>;
 }
 
+// style classes for table
 const headerStyleClasses = {
   trClassName: "text-gray-500 bg-orange-200",
   thClassName:
@@ -47,13 +48,17 @@ const bodyStyleClasses = {
   tdClassName: "text-xs p-2",
   trClassName: "even:bg-slate-100 text-left text-slate-600 text-xs",
 };
+const footerStyleClasses = {
+  thClassName: "text-gray-500 bg-gray-200 p-2 ",
+  trClassName: "even:bg-slate-100 p-4 m-4 text-left text-slate-500 text-xs",
+};
 
 export function Table({ tableData }: TableProps) {
   const [search, setSearchText] = useState<string>();
   const [open, setOpen] = useState(false);
   const [data, setData] = useState<Array<User>>(tableData);
   const [selectedRows, setSelectedRows] = useState({});
-
+  // console.log(data,"my data");
   const [table, renderTable] = useDataTable({
     data: data,
     columns: getColumns(),
@@ -62,6 +67,7 @@ export function Table({ tableData }: TableProps) {
     className: "bottom-2 w-full table-fixed border-collapse",
     bodyStyleClasses: bodyStyleClasses,
     headerStyleClasses: headerStyleClasses,
+    footerStyleClasses:footerStyleClasses,
     rowsSelected: selectedRows,
     onRowsSelected: setSelectedRows,
   });

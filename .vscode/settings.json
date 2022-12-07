@@ -7,9 +7,9 @@
     "source.fixAll.eslint": true
   },
 
-  "workbench.colorTheme": "Night Wolf (dark gray)",
+  "workbench.colorTheme": "Night Wolf (dark blue)",
   "editor.fontFamily": "Operator Mono Light Italics, MonoLisa, Menlo, Monaco, 'Courier New', monospace",
-  "workbench.iconTheme": "vscode-icons",
+  "workbench.iconTheme": "vs-seti",
   "editor.fontLigatures": true,
 
   "reactSnippets.settings.typescriptPropsStatePrefix": "type",

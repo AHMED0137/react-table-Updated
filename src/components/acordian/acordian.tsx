@@ -25,11 +25,11 @@ export function MainAccordian({ data, value, onChange }: AccordionProps) {
           <Accordion.Control icon={item.Icon}>
             <div className="flex flex-row">
               <div className="flex-1 text-lg text-Stone-800">{item.label}</div>
-              {item.message && (
+              {/* {item.message && (
                 <div className="text-lg font-semibold text-Stone-800">
                   {item.message}
                 </div>
-              )}
+              )} */}
             </div>
           </Accordion.Control>
           <Accordion.Panel>

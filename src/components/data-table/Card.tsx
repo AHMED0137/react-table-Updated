@@ -28,8 +28,9 @@ export function TableCard<T extends { id: Id }>({
           })}
           </div>  
             <div key={row.original.id} className="grid grid-cols-4">
-            {row.getVisibleCells().map((cell, index) => (
-              <>
+            {row.getVisibleCells().map((cell, index) => {
+            if(cell.column.columnDef.header!=='Action' ){
+        return  <>
               <Only when={index > 0} key={cell.id + cell.row.id}>
                 <div className="flex flex-col p-4 space-y-4" key={cell.id + cell.row.id}>
                   <span className="text-left text-sm font-semibold text-gray-400">
@@ -42,7 +43,8 @@ export function TableCard<T extends { id: Id }>({
                 </div>
               </Only>
               </>
-            ))}
+             }
+            })}
           </div>
           </div>
         </Paper>
