@@ -5,14 +5,14 @@ import { useFormContext } from "./formProvider";
 import { isRequired } from "./formUtils";
 
 type FormFieldProps = InputProps & {
-  value?: string;
+  value?: string |number;
   label?: string;
   name: string;
   icon?: React.ReactNode;
   description?: string;
   placeholder?:string;
   type: string;
-  onChange?: (value:  string |number) => void
+  onChange?: (value:  number|string) => void
 };
 
 export const FormField = ({
@@ -22,11 +22,12 @@ export const FormField = ({
   placeholder,
   description,
   icon,
+  value,
   onChange,
   ...rest
 }: FormFieldProps) => {
   const { form, schema } = useFormContext();  
-
+// console.log(form?.getInputProps(name),"input props")
   return (
     <TextInput
        icon={icon}
@@ -39,17 +40,20 @@ export const FormField = ({
           display: "inline-flex",
         },
       }}
-     
+      value={form?.getInputProps(name).value}
       label={label}
       radius="xs"
       required={isRequired(name, schema!)}
       onFocus={form?.getInputProps(name).onFocus}
       onBlur={form?.getInputProps(name).onBlure}
       onChange={(e)=>{
-        form?.getInputProps(name).onChange(e.currentTarget.value)
+        const value = e.currentTarget.value;
+        form?.setFieldValue(name, form.values[name]+value  )
+        //form?.getInputProps(name).onChange(e.currentTarget.value)
+        console.log(form?.values)
         if(onChange) {onChange(form?.values[name])}
       }}
-      // {...form?.getInputProps(name)}
+       {...form?.getInputProps(name)}
       placeholder={placeholder}
       type={type}
       {...rest}

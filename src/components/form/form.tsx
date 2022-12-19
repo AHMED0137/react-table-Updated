@@ -3,9 +3,10 @@ import { joiResolver, useForm } from "@mantine/form";
 import Joi from "joi";
 import { FormEvent } from "react";
 import { FormButton } from "./formButton";
+import { FormCheck } from "./formCheckBox";
 import { FormField } from "./formfield";
 import { FormProvider } from "./formProvider";
-import FormSelectBox from "./formSelectbox";
+import FormSelectInput from "./formSelectInput";
 import FormTextBox from "./formTextarea";
 
 export interface FormProps<T> extends React.ComponentPropsWithRef<"form"> {
@@ -43,8 +44,9 @@ export const Form = <T extends object>({
 
 Form.displayName = "Form";
 Form.FormField = FormField;
-Form.FormSelectBox=FormSelectBox;
+Form.FormSelectInput=FormSelectInput;
 Form.FormTextarea = FormTextBox;
 Form.FormButton = FormButton;
+Form.FormCheck=FormCheck;
 
 export default Form;

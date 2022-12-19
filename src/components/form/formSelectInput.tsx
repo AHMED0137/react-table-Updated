@@ -12,7 +12,7 @@ type FormSelectProps = SelectProps &{
   icon?:React.ReactNode;
 };
 
-export const FormSelectBox = ({
+export const FormSelectInput = ({
   label,
   value,
   name,
@@ -42,4 +42,4 @@ export const FormSelectBox = ({
   );
 };
 
-export default FormSelectBox;
+export default FormSelectInput;

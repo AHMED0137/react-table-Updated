@@ -1,37 +1,33 @@
-import { Checkbox } from "@mantine/core";
 import { ColumnDef } from "@tanstack/react-table";
-import { User } from "./DataTable2";
+import { MainData } from "./Datatable";
 import { NumberFormet } from "./NumberFormet";
 
-
+ const SumNumber=(array: any[], value:any)=>{
+      let sum=0;
+       array.map((item)=>{
+           return sum+=Number(item.original[value]);
+       })
+       return sum;
+ }
 // https://tanstack.com/table/v8/docs/guide/introduction
 
 export const getColumns = () => {
-  const columns: Array<ColumnDef<User, unknown>> = [
+  const columns: Array<ColumnDef<MainData, unknown>> = [
+    // {
+    //   accessorKey: "id",
+    //   header: "ID",
+    //   footer: () => null,
+    //   maxSize: 5,
+    // },
     {
-      id: "select",
-      header: ({ table }) => (
-        <div className="grid place-items-center">
-          <Checkbox
-            checked={table.getIsAllRowsSelected()}
-            onChange={table.getToggleAllRowsSelectedHandler()}
-            indeterminate={table.getIsSomeRowsSelected()}
-            styles={{ input: { cursor: "pointer" } }}
-          />
-        </div>
-      ),
-      maxSize: 5,
+      accessorKey:"sport_discipline_id",
+      header:"Sport Discipline Id",
+      footer: () => null,
+      maxSize: 15,
     },
     {
-      accessorKey: "program_description",
-      header: "Descriptions",
-      footer: () =>null, 
-    
-      maxSize: 30,
-    },
-    {
-      accessorKey: "comments",
-      header: "Comments",
+      accessorKey: "program",
+      header: "Program",
       footer: () => "Total",
       maxSize: 35,
     },
@@ -69,10 +65,10 @@ export const getColumns = () => {
       accessorFn: row=>NumberFormet(row.funding_nso),
       footer: ({table}) => { 
         const rows=table.getRowModel().rows;
-        let sum=0;
-        rows.map((item)=>{
-          return sum+=Number(item.original.funding_nso);
-        })
+        const sum=SumNumber(rows,"funding_nso")
+        // rows.map((item)=>{
+        //   return sum+=Number(item.original.funding_nso);
+        // })
         return NumberFormet(sum);
       },
       size: 5,
@@ -83,10 +79,7 @@ export const getColumns = () => {
       accessorFn: row=>NumberFormet(row.funding_other),
       footer: ({table}) => {
         const rows=table.getRowModel().rows;
-        let sum=0;
-        rows.map((item)=>{
-          return sum+=Number(item.original.funding_other);
-        })
+        const sum=SumNumber(rows,"funding_other");
        return NumberFormet(sum);
       },
       size: 5,
@@ -98,19 +91,12 @@ export const getColumns = () => {
       accessorFn: row=>NumberFormet(row.funding_total),
       footer: ({table}) => {
         const rows=table.getRowModel().rows;
-        let sum=0;
-        rows.map((item)=>{
-          return sum+=Number(item.original.funding_total);
-        })
+        const sum=SumNumber(rows,"funding_total");
+          //  let intialValues=0;
+        //  sum = rows.reduce((partialSum, a) => partialSum + Number(a), intialValues);
         return NumberFormet(sum);
       },
       size: 5,
-    },
-    {
-      header: "Action",
-      minSize: 18,
-      size: 5,
-      maxSize: 20,
     },
   ];
 

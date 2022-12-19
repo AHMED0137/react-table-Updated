@@ -38,7 +38,7 @@ function getComponent(type: InputProps["type"]) {
   switch (type) {
     case "password":
       return PasswordInput;
-    case "Number":
+    case "Number"|| "number":
       return NumberInput;
     case "textarea":
       return Textarea;

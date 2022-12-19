@@ -38,7 +38,7 @@ export function SimpleRow(props: CellContext<User, unknown>) {
             {...props}
             opened={open}
             action={action}
-            size="60%"
+            size="75%"
             onClose={() => setOpen(false)}
           />
         </div>

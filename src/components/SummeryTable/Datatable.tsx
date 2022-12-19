@@ -1,41 +1,24 @@
-import { Button, Input } from "@mantine/core";
-import { IconPlus, IconRefresh, IconSearch } from "@tabler/icons";
+import { Input } from "@mantine/core";
+import { IconSearch } from "@tabler/icons";
 import React, { useState } from "react";
 import { useDataTable } from "../data-table";
-import { RowFormWithDrawer } from "./EditRow";
 import { SimpleRow } from "./SimpleRow";
 import { getColumns } from "./TableSchema";
 
 /* eslint-disable react-hooks/exhaustive-deps */
-export type User = {
+export type MainData = {
   id: number | string;
-  program_description?: string; //drop down
-  sport_discipline_id:string,
-  comments: string,
-
-  first_name: string; // drop down
-  last_name: string; // drop down
-  name: string; // full name
-  email: string; //  automatically
-  position: string; // automatically
-
-  psri_service: string;
-  time_request: string;
-  time_request_days: number;
-
+  sport_discipline_id: number | string,
+  program:string;
   funding_otp: number;
   funding_sportsCanada: number;
   funding_nso: number;
   funding_other: number;
   funding_total: number; // calculate
-
-  percent_aloc_senior: number; // 0 - 100
-  percent_next_gen: number; // 0 - 100
-   percentage?:number;
 };
 
 interface TableProps {
-  tableData: Array<User>;
+  tableData: Array<MainData>;
 }
 
 // style classes for table
@@ -53,11 +36,9 @@ const footerStyleClasses = {
   trClassName: "even:bg-slate-100 p-4 m-4 text-left text-slate-500 text-xs",
 };
 
-export function Table({ tableData }: TableProps) {
+export function SummeryTable({ tableData }: TableProps) {
   const [search, setSearchText] = useState<string>();
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState<Array<User>>(tableData);
-  const [selectedRows, setSelectedRows] = useState({});
+  const [data, setData] = useState<Array<MainData>>(tableData);
   // console.log(data,"my data");
   const [table, renderTable] = useDataTable({
     data: data,
@@ -68,16 +49,10 @@ export function Table({ tableData }: TableProps) {
     bodyStyleClasses: bodyStyleClasses,
     headerStyleClasses: headerStyleClasses,
     footerStyleClasses:footerStyleClasses,
-    rowsSelected: selectedRows,
-    onRowsSelected: setSelectedRows,
   });
 
-  function handleReset() {
-    table.options.meta?.resetTable();
-  }
-
   return (
-    <div className="p-2">
+   <div className="p-2">
       <div className="flex flex-row items-center space-x-9">
         <Input
           icon={<IconSearch />}
@@ -88,37 +63,10 @@ export function Table({ tableData }: TableProps) {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSearchText(e.currentTarget.value)
           }
-        />
-        <Button
-          leftIcon={<IconPlus  size={14} stroke={6} />}
-          size="xs"
-          onClick={() => setOpen(true)}
-          color="orange"
-        >
-          Add New Row
-        </Button>
-        <RowFormWithDrawer
-          table={table}
-          opened={open}
-          size="75%"
-          action="new"
-          onClose={() => setOpen(false)}
-        />
-        <Button
-          leftIcon={<IconRefresh size={14} stroke={6} />}
-          size="xs"
-          onClick={handleReset}
-          color="orange"
-        >
-          Reset
-        </Button>
+        />   
       </div>
       <div className="overflow-auto bg-slate-50">
         {renderTable()}
-        {/* <Text size={"lg"} mt={"xl"} color={"orange"} mb={"lg"}>
-          Displaying Changes in the datatable
-        </Text>
-        {JSON.stringify(table.options.meta?.getTableChanges())} */}
       </div>
     </div>
   );
