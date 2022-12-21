@@ -241,7 +241,7 @@ function App() {
                   if (activeBlock.length > 0) {
                     setActiveBlock([]);
                   } else {setActiveBlock(FormData.map((item) => { 
-                    setActiveSubBlock(item.program.flatMap((value)=> value.prgramTitle))
+                    setActiveSubBlock(item.program.map((value)=> value.prgramTitle))
                     return item.programSubTitle} )) };
                 }}
               >
